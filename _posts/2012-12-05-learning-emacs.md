@@ -78,3 +78,9 @@ tags: [emacs, 学习]
 
 
 ###Hour2 Using Emacs in Microsoft Windows
+	 leave blank
+
+###Hour3 Getting Started with Emacs
+####Layout of the Screen
+Emacs的界面
+![Emacs](/figure/03fig01.gif)
