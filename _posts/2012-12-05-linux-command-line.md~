@@ -1,9 +1,0 @@
----
-layout: post
-title: "linux command line"
-description: ""
-category: linux
-tags: [linux]
----
-{% include JB/setup %}
-Hello world!
