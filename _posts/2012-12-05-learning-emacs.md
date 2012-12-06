@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "learning_emacs"
+title: "learning emacs"
 description: ""
 category: learning
 tags: [emacs, 学习]
@@ -8,11 +8,9 @@ tags: [emacs, 学习]
 {% include JB/setup %}
 
 ##Emacs
-###Hour1 Introduction
+###Key
 
-####Key
-
-`Shift`,`Control(Ctrl)`,`Meta(Alt)`
+`Shift`,`Control(Ctrl)`,`Meta(Alt)`(有时用`Esc`来替代)
 
 * `C-F1` 同时按`Ctrl`和`F1`
 
@@ -22,65 +20,254 @@ tags: [emacs, 学习]
 
 * `S-C-M-F1` 或 `C-M-S-F1` 按的顺序不重要
 
-####Features
+《Teach Yourself Emacs in 24Hours》一书内容忒旧了，不爽，算了，看手册学吧。
 
-* Working with Many Files in Different Windows at the Same Time
+###emacs快速指南
 
-* Editing Files on Different Hosts
+`C-h t`开启快速指南。
 
-* Customizable Keyboards and Functions
+`C-x C-c`退出emacs
 
-* Lots of Additional Third-Party Extensions
+####移动光标
 
-* Undo and Recovery
+`C-v` 看下一屏文字，移动到下一屏
 
-* Editing Modes
+`M-v` 看上一屏文字，移动到上一屏
 
-* Making the Text More Readable Using Colors
+`C-l` 重绘屏幕，将光标置于屏幕中央，连续按会轮回上下中
 
-* Spell-Checking
+`C-p` 光标移动到上一行 previous
 
-* Search and Search-and-Replace Capabilities
+`C-n` 光标移动到下一行 next
 
-* Compiling and Debugging Programs from Within Emacs
+`C-b` 光标移动到左一列 backword
 
-* Powerful Macros
+`C-f` 光标移动到右一列 forward
 
-* Folding and Hiding Text
+`M-f` 光标往前移动一个词
 
-* Reading/Composing Main and News
+`M-b` 光标往后移动一个词
 
-* Extra Help Using the Info System
+惯例是`META`系列*由语言定义的单位(词 句子 段落)*, `CONTROL`系列*与语言无关(字符 行)*
 
-####The Keyboard Quick Reference Card
+`C-a` 光标移动到一行的头部
 
-	(global-set-key [(control f6)] 'sams-toggle-truncate)
-将`C-F6`与`sams-toggle-truncate`函数绑定
+`C-e` 光标移动到一行的尾部
 
-####A Note on Configuring Emacs
-通过在`.emacs`文件中插入*Lisp*代码可以来配置Emacs
+`M-a` 光标移动到"一句"的头部
 
-《Teach Yourself Emacs in 24Hours》一书的配置方式
-配置文件 [下载](http://www.cs.virginia.edu/~wh5a/personal/Emacs/ "配置文件")
+`M-e` 光标移动到"一句"的尾部
 
-1. 在`home`下新建文件夹`Emacs`
+`M->` 光标移动到文件开始
 
-2. 将`sams-lib.el`拷贝到`Emacs`文件夹
+`M-<` 光标移动到文件结束
 
-3. 在`.emacs`文件中插入代码
-	
-<pre><code>(setq load-path (cons "~/Emacs" load-path))</code>
-<code>(require 'sams-lib)</code></pre>
+`C-u`+N+`命令` 执行N次命令 也可以按住`META`输入数字再输命令, `C-v`和`
+M-v`的数值参数制定的是滚动的行数而不是屏数.
 
-也可以加入`refcard.el`文件，并在`.emacs`中加入
+`C-g` 终止命令 和 取消命令
 
-	(load "refcard")
+取消`Esc`的方法是按`C-g`或者再连按两次`Esc`
 
+被禁用的命令
 
-###Hour2 Using Emacs in Microsoft Windows
-	 leave blank
+一些命令被Emacs禁用了,输入这样的命令,Emacs会提醒你是否要继续,想要用就按`空格`,否则就按`n`
 
-###Hour3 Getting Started with Emacs
-####Layout of the Screen
-Emacs的界面
-![Emacs](/figure/03fig01.gif)
+####窗格(windows)
+Emacs可以有多个窗格
+
+`C-x 1`只保留一个窗格(关掉其他所有窗格)
+
+以`C-x`开头的命令多跟"窗格,文件缓冲区"有关
+
+####插入和删除
+
+插入直接输入就行了, 插入支持多个相同字符的插入
+
+`C-u 8 *` 输入8个*
+
+`Delback` 删除光标前的一个字符, `Delback`就是Backspace`
+
+`C-d` 删除光标后的一个字符
+
+`M-Delback` 删除光标前的一个词
+
+`M-d` 删除光标后的一个词
+
+`C-k` 删除从光标到*行尾*间的字符 单独的`C-k`不消除行末的换行符,联系按两次`C-k`消除一行及换行符,而`C-u 2 C-k`消除两行,及两行的换行符
+
+`M-k` 删除从光标到*句尾*间的字符
+
+`d`是`delete(删除)`  `k`是`kill(移除)`
+
+移除缓冲区里的任意一部分:
+
+1. 首先把光标移动到想要移除的区域的一端,按`C-@`设定mark(也可用`C-空格`,但是这个一般被设定成输入法热键了).
+
+2. 将光标移动到另一端,按`C-w`移除两段之间的文字
+
+移除(kill)的东西可以找回来(只是看起来消失了而已),删除(delete)的东西无法找回. 重新插入被移除的东西被称为"召回(yank)". 一般来说消除很多文字的命令会把消除的文字记录下来("可召回"),而只删除一个字符或者直消除空白的命令不会记录被消除的内容("不可召回").
+
+`C-y` 召回(yanking),可以在任何位置召回,多次召回同样的文字.
+
+`M-y` 切换要召回的内容,先按`C-y`再按`M-y`会不断轮回召回的内容,下一次`C-y`召回的内容和前次召回的内容相同,但是移除的内容太多了怎么办?
+
+####撤销(undo)
+
+`C-x u` 撤销命令的效果, 前一条命令有多个效果,如使用了重复数字,那么全都消除.
+
+两个例外
+
+1. 没改变文字的命令不算(移动光标和滚动命令)
+
+2. 从键盘输入的字符以组为单位(每组20个字符)来进行处理
+
+`C-_` 也是撤销,和`C-x u`作用一样,输入较少,但是较难按
+
+####文件(file)
+
+`C-x C-f` 寻找一个文件,屏幕最低端一行为小缓冲区(minibuffer),小缓冲区中也可以用Emacs命令来编辑文件名, 可用`C-g`取消
+
+`C-x C-s` 保存文件
+
+第一次存盘的时候Emacs会将原文件重命名以备份. 重命名通常为源文件名后面加"~", 可以通过`M-x customize-variable 回车 make-backup-files 回车`来关掉
+
+查找一个不存在的文件就是新建该文件.
+
+####缓冲区(buffer)
+
+`C-x C-f`打开第二个文件后,第一个文件仍然在Emacs中,但是我们无法看到,要切回第一个文档可以用`C-x C-f`,但是这样非常麻烦.
+
+Emacs把编辑中的文件放在"缓冲区(buffer)", 没寻找到一个文件就在内部开辟一个缓冲区.
+
+`C-x C-b` 列出缓冲区  还记的`C-x 1`吗? 只保留一个窗格, 缓冲区没关的.
+
+不管有多少缓冲区,都只能有一个*当前*缓冲区,当前正在编辑的缓冲区.
+
+切换缓冲区的方法:
+
+`C-x b 缓冲区名字`
+
+窗格中的任何文字都属于特定的缓冲区,但是缓冲区未必对应文件:比如显示缓冲区列表的缓冲区,或者"*Messages*"缓冲区对应的是Emacs底部出现的消息.
+
+切换到另一缓冲区并不会保存当前缓冲区到文件,因此需要手动用`C-x C-s`保存.
+
+`C-x s`保存多个缓冲区
+
+####命令集的扩展
+
+光用`control`和`meta`键无法表示所有命令,因此Emacs加入了扩展(eXtend)命令来解决这个问题(注意`eXtend`), 扩展有两种风格:
+
+`C-x 命令` 字符扩展, `C-x`之后输入另一个字符或者组合键 如`C-x C-f` `C-x C-c` `C-x C-s`等 
+
+`M-x 命令` 命令名扩展, `M-x` 之后输入一个命令名
+
+`C-z` 暂停Emacs 暂时离开Emacs, 可以通过`fg`或者`%emacs`命令唤回,一般情况下不用`C-x C-c`推出,用`C-z`暂停就好了
+
+*复习*
+`C-x C-f` 寻找文件
+
+`C-x C-s` 保存文件
+
+`C-x C-b` 列出缓冲区
+
+`C-x C-c` 推出Emacs
+
+`C-x 1` 关掉其他窗格
+
+`C-x u` 撤销
+
+命令扩展不常用或者只用在部分模式下
+
+输入`M-x` 再输入`replace-string`(`repl s TAB`补全)再按回车后如入被替换字符和替换字符.
+
+####自动保存(auto save)
+Emacs会定期自动保存,文件名头尾会有"#",正常存盘后会被删掉.
+
+加入悲剧发生了,打开源文件(不是自动保存文件)输入`M-x recover file 回车`就可以恢复自动保存的文件了.
+
+####回显区(echo area)
+
+如果输入多字符命令节奏很慢，Emacs会在窗格下方最下面一行的"回显区"给出提示
+
+####状态栏(mode line)
+
+位于回显区上面一行
+
+小括号里的为当前的编辑模式,缺省为Fundamental模式,它是一种"主模式",任何情况下只能应用一个主模式
+
+Emacs的主模式很多 Lisp模式, Text模式.
+
+`M-x fundamental-mode` 开启Fundamental模式
+
+主模式通常会有些小动作,很多命令完成相同工作,但是在不同环境下有不同的工作方式
+
+`C-h m` 可以查看当前模式的文档
+
+除了主模式(major)外, 还有*辅模式(minor)*,辅模式不能替代主模式,但是可以增加一些辅助功能,每个辅模式可以单独开启和关闭,和其他辅模式无关.
+
+`Auto Fill` 自动换行辅模式 `M-x auto fill mode`自动开启折行模式,再用这个命令关闭折行模式, 这种开关模式是"开关(toggle)"模式
+
+行边界通常设定为70个字符,可以使用`C-x f` 配合数字参数来重新设定.
+
+`C-u 20 C-x f` 将行边界设定为20个字符,对英文字符有用,对中文字符无效
+
+`M-q` 进行手动折行
+
+####搜索(searching)
+
+Emacs的搜索是渐进的(incremental)
+
+`C-s` 前向搜索 按`C-s`跳到下一个搜索结果
+
+`C-r` 后向搜索 按`C-r`跳到上一个搜索结果  `C-g` 让光标回到搜索开始的位置,而按回车光标到搜索的结果上
+
+某些终端按`C-x C-s`会冻结屏幕,按`C-q` 可以解冻
+
+####多窗格(multiple window)
+
+`C-u N C-l` 貌似是使当前光标所在行移动到屏幕第N行
+
+`C-x 1` 只保留当前窗格
+
+`C-x 2` 水平开一个新的窗格, 窗格内的内容与当前窗格相同
+
+`C-x 3` 垂直开一个新的窗格, 窗格内的内容与当前窗格相同
+
+`C-M-v` 滚动下方的窗格, 但是貌似和evernote的热键重了,可以用`Esc C-v`来代替的,这个命令在多窗口时很有用的
+
+`C-x o` 光标移动到另一窗格
+
+`C-x 4 C-f 文件名` 可以在新的窗格里面打开文件
+
+####递归编辑(recursive editing levels)
+
+模式名称外面有[]时就是进入了递归编辑,比如用`M-%`进行交互式替换的时候又进行了`C-s`进行搜索,这是替换模式没有结束,但是你又进入了搜索模式,就是所谓的递归编辑
+
+通过`Esc Esc Esc`可以离开递归编辑,这个命令可以用来关闭多于的窗格或者离开小缓冲区
+
+不能用`C-g`来取消递归编辑,因为这是取消"本层递归编辑之内"的命令和参数
+
+####获取更多的帮助(getting more help) 这个相当重要啊
+
+`C-h` 是帮助字符,所有查看命令文档的文档都是以这个字符开头的
+
+`C-h ?` 帮助提供了那些帮助
+
+`C-h c 组合键` Emacs给出该组合键的简要说明 例如`C-h c C-p` 给出了`C-p`的功能说明
+
+`C-h k 组合键` 给出了详细说明
+
+`C-h f 函数名` 给出函数的解释
+
+`C-h v` 显示Emacs变量的文档. Emacs可以被用来"定制Emacs的行为"
+
+`C-h a 关键词` 搜索相关的命令
+
+`C-h i` 阅读联机手册(Info), *之后就靠Emacs Info了*, `C-h i ?`联机手册指导
+
+####更多精彩(more features)
+
+Emacs使用手册 `F10 h r` 如 completion(自动补全), dired(目录编辑)
+
+###暂时结束,先使用,再学习高端技巧,还是需要先看tutorial啊.
