@@ -248,6 +248,18 @@ Emacs的搜索是渐进的(incremental)
 
 不能用`C-g`来取消递归编辑,因为这是取消"本层递归编辑之内"的命令和参数
 
+####转码
+
+`C-x 回车 r`(也可用`M-x revert-buffer-with-coding-system`) 再输入编码方式比如UTF-8或者Chinese-GB等来进行转码
+
+####特殊字符的输入
+
+`C-x 8 R` ® (utf-8)下无法显示?
+
+`C-x 8 o` °
+
+`C-x 8 C-h` 可以有一份完整的列表
+
 ####获取更多的帮助(getting more help) 这个相当重要啊
 
 `C-h` 是帮助字符,所有查看命令文档的文档都是以这个字符开头的
