@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "chapter3 linux command"
+title: "chapter3 LCLSS"
 description: ""
-category: linux command
-tags: [学习, linux, command]
+category: LCLSS
+tags: [学习, linux, command line, LCLSS]
 ---
 {% include JB/setup %}
 
