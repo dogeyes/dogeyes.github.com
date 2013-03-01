@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "chapter3 LCLSS"
+title: "基本的bash shell命令 chapter3 LCLSS"
 description: ""
 category: LCLSS
 tags: [学习, linux, command line, LCLSS]

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "chapter6 LCLSS"
+title: "理解Linux文件权限 chapter6 LCLSS"
 description: ""
 category: LCLSS
 tags: [LCLSS, linux, command line, 学习]

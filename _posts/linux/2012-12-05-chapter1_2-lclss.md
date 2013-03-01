@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "chapter1&2 LCLSS"
+title: "初始Linux shell和走进shell chapter1&2 LCLSS"
 description: ""
 category: LCLSS
 tags: [linux, command line, LCLSS, 学习]

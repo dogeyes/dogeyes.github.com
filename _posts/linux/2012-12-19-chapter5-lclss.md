@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "chapter5 LCLSS"
+title: "使用linux环境变量 chapter5 LCLSS"
 description: ""
 category: LCLSS
 tags: [LCLSS, 学习, linux, command line]

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "chapter7 LCLSS"
+title: "管理文件系统 chapter7 LCLSS"
 description: ""
 category: LCLSS
 tags: [LCLSS, 学习, command line, linux]
