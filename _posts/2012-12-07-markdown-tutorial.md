@@ -2,8 +2,8 @@
 layout: post
 title: "markdown tutorial"
 description: ""
-category: markdown 
-tags: [学习, markdown, jekyll]
+category: Jekyll 
+tags: [学习, markdown, Jekyll]
 ---
 {% include JB/setup %}
 
