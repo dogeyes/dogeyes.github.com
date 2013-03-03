@@ -53,9 +53,9 @@ markdown文档
 
 HTML的区段(行内)标签如`<span>`,`<cite>`,`<del>`可以在markdown的段落,列表或是标题内随意使用.依照个人习惯,甚至可以不用markdown格式,而直接使用HTML标签来格式化.比如可以使用HTML的`<a>`或者`<img>`标签.
 
-	<del>test del<del>
+	<del>test del</del>
 
-<del>test del<del>
+<del>test del</del>
 
 - - -
 
