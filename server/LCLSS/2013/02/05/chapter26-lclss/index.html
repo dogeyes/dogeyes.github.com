@@ -1,0 +1,419 @@
+<link href="/assets/themes/twitter/css/pygments.css" rel="stylesheet">
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>编写脚本实用工具 chapter26 LCLSS</title>
+    <meta name="description" content="">
+    <meta name="author" content="dogeyes">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/assets/themes/twitter/bootstrap/css/bootstrap.2.2.2.min.css" rel="stylesheet">
+    <link href="/assets/themes/twitter/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Le fav and touch icons -->
+  <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container-narrow">
+          <a class="brand" href="/">dogeyes</a>
+          <ul class="nav">
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/pages.html">Pages</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+
+
+
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-narrow">
+
+      <div class="content">
+        
+<div class="page-header">
+  <h1>编写脚本实用工具 chapter26 LCLSS </h1>
+</div>
+
+<div class="row-fluid post-full">
+  <div class="span12">
+    <div class="date">
+      <span>05 February 2013</strong>
+    </div>
+    <div class="content">
+      <h1>第26章 编写脚本使用工具</h1>
+
+<h2>26.1 监测磁盘空间</h2>
+
+<h3>26.1.1 需要的功能</h3>
+
+<p><code>du</code>,每个文件和目录显示磁盘的使用情况</p>
+
+<p><code>-s</code>选项用来在目录一级总结整体使用情况</p>
+
+<pre><code>du -s /home/* #home目录下各文件和目录占用空间大小
+</code></pre>
+
+<p><code>-S</code>选项,为每个目录和子目录分别提供一个总计</p>
+
+<p><code>sort</code>命令对输出进行排序 <code>-r</code>反向, <code>-n</code>对数值进行排序</p>
+
+<p>在对输出格式进行调整</p>
+
+<pre><code>sed '{11,$D; =}' #只显示前面10行
+sed 'N; s/\n/ /' #将行号和内容合并到同一行
+gawk '{printf $1 ":" "\t" $2 "\t" $3 "\n"}'
+</code></pre>
+
+<h3>26.1.2 创建脚本</h3>
+
+<pre><code>#!/bin/bash
+
+CHECK_DIRECTORIES="/var/log /home"
+
+DATE=$(date '+%m%d%y')
+
+exec &gt; disk_space_$DATE.rpt
+
+echo "Top Ten Disk Space Usage"
+echo "for $CEHCK_DIRECTORIES Directories"
+
+for DIR_CHECK in $CHECK_DIRECTORIES
+do
+    echo ""
+    echo "The $DIR_CHECK Directory:"
+
+    du -S $DIR_CHECK 2&gt; /dev/null |
+    sort -rn |
+    sed '{11,$D; =}' |
+    sed 'N; s/\n/ /' |
+    gawk '{printf $1 ":" "\t" $2 "\t" $3 "\n"}'  
+done
+</code></pre>
+
+<h3>26.1.3 运行脚本</h3>
+
+<p>可以手动运行</p>
+
+<p>也可以通过cron表来定期运行</p>
+
+<h2>26.2 进行备份</h2>
+
+<h3>26.2.1 归档数据文件</h3>
+
+<h4>1. 需要的功能</h4>
+
+<p><code>tar</code> 命令</p>
+
+<pre><code>tar -cf archive.tar /home/user/backup_test 2&gt;/dev/null
+#将文件夹归档成一个tar文件
+</code></pre>
+
+<p>可以加<code>-z</code>选项进行压缩</p>
+
+<pre><code>tar -zcf archive.tar /home/user/backup_test 2&gt;/dev/null
+</code></pre>
+
+<p>使用配置文件包含你要归档的文件或目录</p>
+
+<p>通过脚本读取配置文件</p>
+
+<pre><code>exec &lt; $CONFIG_FILE
+read FILE_NAME
+</code></pre>
+
+<p>处理过程中简单的判断文件是否存在</p>
+
+<pre><code>if [ -f $FILE_NAME -o -d $FILE_NAME ]
+then
+    FILE_LIST="$FILE_LIST $FILE_NAME"
+else
+    echo
+    echo "$FILE_NAME, does not exist."
+    echo "Obviously, I will not include it in this archive."
+    echo "It is listed on line $FIlE_NO of the config file."
+    echo "Continuing to build archive list…"
+    echo
+fi
+FILE_NO=$[ $FILE_NO + 1 ]
+</code></pre>
+
+<h4>2. 创建按日期归档的脚本</h4>
+
+<pre><code>DATE=`date +%m%d%y`
+FILE=archive$DATE.tar.gz
+CONFIG_FILE=/home/user/archive/Files_To_Backup
+DESTINATION=/home/user/archive/$FILE
+
+if [ -f $CONFIG_FILE ]
+then
+    echo
+else
+    echo
+    echo "$CONFIG_FILE does not exist"
+    echo "BACKUP not completed due to missing Configuration File"
+    echo
+    exit
+fi
+
+FILE_NO=1
+exec &lt; $CONFIG_FILE
+
+read FILE_NAME
+while [ $? -eq 0 ]
+do
+    if [ -f $FILE_NAME -o -d $FILE_NAME ]
+then
+    FILE_LIST="$FILE_LIST $FILE_NAME"
+else
+    echo
+    echo "$FILE_NAME, does not exist."
+    echo "Obviously, I will not include it in this archive."
+    echo "It is listed on line $FIlE_NO of the config file."
+    echo "Continuing to build archive list…"
+    echo
+    fi
+    FILE_NO=$[ $FILE_NO + 1 ]
+    read FILE_NAME
+done
+
+tar -czf $DESTINATION $FILE_LIST 2&gt;/dev/null
+</code></pre>
+
+<h4>3. 运行按日期归档的脚本</h4>
+
+<h4>4. 创建按小时归档的脚本</h4>
+
+<p>按小时归档归档文件将很多,可以考虑构建目录层级</p>
+
+<p><code>mkdir -p</code> 创建新目录 如果目录已经存在就不再创建</p>
+
+<pre><code>CONFIG_FILE=/home/user/archive/hourly/Files_To_Backup
+BASEDEST=/home/user/archive/hourly
+
+DAY=`date +%d`
+MONTH=`date +%m`
+TIME=`date +%K%M'
+
+mkdir -p $BASEDEST/$MONTH/$DAY
+
+DESTINATION=$BASEDEST/$MONTH/$DAY/archive$TIME.tar.gz
+</code></pre>
+
+<h4>5. 运行按小时归档的脚本</h4>
+
+<h3>26.3 管理用户账户</h3>
+
+<h3>26.3.1 需要的功能</h3>
+
+<p>删除用户账户</p>
+
+<ol>
+<li>获取要删除账户的正确账户名</li>
+<li>强制终止正在系统上运行的属于该账户的进程</li>
+<li>确认系统上属于该账户的所有文件</li>
+<li>删除用户账户</li>
+</ol>
+
+
+<h4>1. 获取正确用户名</h4>
+
+<h4>2. 删除属于用户的进程</h4>
+
+<p><code>ps -u usename</code> 指定用户的进程</p>
+
+<p><code>cut</code> 命令提取进程PID</p>
+
+<h4>3. 查找属于用户账户的文件</h4>
+
+<p><code>find</code> 命令查找文件</p>
+
+<pre><code>find / -user username #查找username的文件
+</code></pre>
+
+<h4>4. 删除账户</h4>
+
+<p><code>userdel username</code> 命令删除账户</p>
+
+<h3>26.3.2 创建脚本</h3>
+
+<hr />
+
+<p>完整的delete__user脚本</p>
+
+<hr />
+
+<p>运行脚本</p>
+
+    </div>
+
+  
+    <ul class="tag_box inline">
+      <li><i class="icon-folder-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/categories.html#LCLSS-ref">
+    		LCLSS <span>23</span>
+    	</a></li>
+    
+  
+
+
+    </ul>
+    
+
+  
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/tags.html#LCLSS-ref">LCLSS <span>23</span></a></li>
+     
+    	<li><a href="/tags.html#linux-ref">linux <span>23</span></a></li>
+     
+    	<li><a href="/tags.html#学习-ref">学习 <span>34</span></a></li>
+     
+    	<li><a href="/tags.html#command line-ref">command line <span>22</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/LCLSS/2013/02/04/chapter23-lclss" title="使用数据库 chapter23 LCLSS">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next"><a href="/LCLSS/2013/02/05/chapter27-lclss" title="shell脚本编程进阶 chapter27 LCLSS">Next &rarr;</a></li>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jekyllbootstrap'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+</div>
+
+      </div>
+      <hr>
+      <footer>
+        <p>&copy; 2013 dogeyes
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>
+        </p>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

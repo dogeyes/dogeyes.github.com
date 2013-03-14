@@ -1,0 +1,721 @@
+<link href="/assets/themes/twitter/css/pygments.css" rel="stylesheet">
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>初识sed和gawk chapte18 LCLSS</title>
+    <meta name="description" content="">
+    <meta name="author" content="dogeyes">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/assets/themes/twitter/bootstrap/css/bootstrap.2.2.2.min.css" rel="stylesheet">
+    <link href="/assets/themes/twitter/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Le fav and touch icons -->
+  <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container-narrow">
+          <a class="brand" href="/">dogeyes</a>
+          <ul class="nav">
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/pages.html">Pages</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+
+
+
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-narrow">
+
+      <div class="content">
+        
+<div class="page-header">
+  <h1>初识sed和gawk chapte18 LCLSS </h1>
+</div>
+
+<div class="row-fluid post-full">
+  <div class="span12">
+    <div class="date">
+      <span>30 January 2013</strong>
+    </div>
+    <div class="content">
+      <h1>第18章 初识sed和gawk</h1>
+
+<h2>18.1 文本处理</h2>
+
+<p>命令行编辑器: sed和gawk</p>
+
+<h3>18.1.1 sed编辑器</h3>
+
+<p>流编辑器(stream editor), 在编辑器处理数据之前基于预先提供的一组规则来编辑数据流</p>
+
+<pre><code>sed options script file
+</code></pre>
+
+<p>sed命令行选项</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>选项    </th>
+<th> 描述    </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>-e script </td>
+<td> 在处理输入时,将script中指定的命令添加到运行的命令中|</td>
+</tr>
+<tr>
+<td></td>
+<td>-f file </td>
+<td>在处理输入时,将file中指定的命令添加到运行的命令中|</td>
+</tr>
+<tr>
+<td></td>
+<td>-n </td>
+<td> 不要为每个命令生成输出,等待print命令来输出</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>script参数指定了将作用在流数据上的单个命令,如果需要多个命令,必须用-e选项或者-f选项</p>
+
+<h4>1. 命令行定义编辑器命令</h4>
+
+<p>默认情况下,sed编辑器会将制定的命令应用于STDIN输入流,因此可以直接使用流控制</p>
+
+<pre><code>echo "This is a test" | sed 's/test/big test/'
+</code></pre>
+
+<p><code>s/string/new string/</code> 替换</p>
+
+<h4>2. 在命令行使用多个编辑器命令</h4>
+
+<p><code>-e</code>选项</p>
+
+<pre><code>sed -e 's/brown/green/; s/dog/cat/' date1
+</code></pre>
+
+<p>命令行之间用<code>;</code>,命令末尾和分号之间不能有空格</p>
+
+<p>可以用次提示符分割命令</p>
+
+<pre><code>sed -e '
+s/brown/green/
+s/fox/elephant/
+s/dog/cat/' date1
+</code></pre>
+
+<h4>3. 从文件中读取编辑器命令</h4>
+
+<p><code>-f</code> 选项</p>
+
+<pre><code>#script1
+s/brown/green/
+s/fox/elephone/
+s/dog/cat/
+
+sed -f script1 data1
+</code></pre>
+
+<h3>18.1.2 gawk程序</h3>
+
+<p>awk程序的GNU版本</p>
+
+<ul>
+<li>定义变量保存数据</li>
+<li>使用算术和字符串操作来处理数据</li>
+<li>使用结构化编程概念,比如if-then语句和循环语句,来为数据处理增加逻辑</li>
+<li>提取数据文件中的数据元素并将他们按另一顺序或格式重新放置,从而生成格式化报告</li>
+</ul>
+
+
+<h4>1. gawk命令格式</h4>
+
+<pre><code>gawk options program file
+</code></pre>
+
+<p>gawk选项</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>选项          </th>
+<th>描述                            </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>-F fs        </td>
+<td>指定行中分割数据字段的字段分隔符     |</td>
+</tr>
+<tr>
+<td></td>
+<td>-f file      </td>
+<td>指定读取程序的文件名               |</td>
+</tr>
+<tr>
+<td></td>
+<td>-v var=value </td>
+<td>定义gawk程序中的一个变量及其默认值  |</td>
+</tr>
+<tr>
+<td></td>
+<td>-mf N        </td>
+<td>指定要处理的数据文件中的最大字段数   |</td>
+</tr>
+<tr>
+<td></td>
+<td>-mr N        </td>
+<td>指定数据文件中的最大数据行数        |</td>
+</tr>
+<tr>
+<td></td>
+<td>-W keyword   </td>
+<td>指定gawk的兼容模式和警告等级       |</td>
+</tr>
+</tbody>
+</table>
+
+
+<h4>2. 从命令行读取程序脚本</h4>
+
+<pre><code>gawk '{print "Hello John!"}
+</code></pre>
+
+<p>EOF(CTRL-D)</p>
+
+<h4>3. 使用数据字段变量</h4>
+
+<p>每个数据字段都有一个变量</p>
+
+<ul>
+<li>$0代表整个文本行</li>
+<li>$1 代表第一个数据字段</li>
+<li>$2 代表第二个数据字段</li>
+<li>$n 代表第n个数据字段</li>
+</ul>
+
+
+<p><code>字段分隔符</code>来划分数据字段</p>
+
+<p>默认字段分隔符是任意的空白字符</p>
+
+<pre><code>#data3
+One line of test text
+Two lines of test text
+Three lines of test text
+
+gawk '{print $1}' data3
+One
+Two
+Three
+</code></pre>
+
+<p><code>-F:</code>选项将分隔符换成<code>:</code></p>
+
+<h4>4. 在程序脚本中使用多个命令</h4>
+
+<pre><code>echo "My name is Rich" | gawk '{$4="Christine"; print $0}'
+
+gawk '{
+$4="testing"
+print $0 }'
+This is not a good test
+&gt;This is not testing good test
+</code></pre>
+
+<h4>5. 在文件中读取程序</h4>
+
+<pre><code>#script2
+{ print $1 "'s home directory is " $6}
+
+gawk -F: -f script2 /etc/passwd
+
+{
+text = "'s home directory is "
+print $1 text $6   #注意对text变量的引用不需要加$符号
+}
+gawk -F: -f script3 /etc/passwd
+</code></pre>
+
+<h4>6. 在处理数据前运行脚本</h4>
+
+<p><code>BEGIN</code> 关键字,强制gawk在读取数据前执行BEGIN关键字后指定的程序脚本</p>
+
+<pre><code>gawk 'BEGIN {print "Hello World!"}'
+
+#data4
+Line 1
+Line 2
+Line 3
+gawk 'BEGIN {print "The data4 File Contents: "} { print $0 }' data4
+</code></pre>
+
+<h4>7.在处理数据后运行脚本</h4>
+
+<p><code>END</code>关键字</p>
+
+<pre><code>#data4
+Line 1
+Line 2
+Line 3
+gawk 'BEGIN {print "The data4 File Contents: "} { print $0 } END { print "End of File"} ' data4
+
+#script4
+BEGIN {
+print "The latest list of users and shells"
+print " Userid            shell"
+print "---------         ------"
+FS=":"
+}
+{
+print $1 "    " $7
+}
+END {
+print "This concludes the listing"
+}
+</code></pre>
+
+<h2>18.2 sed编辑器基础</h2>
+
+<h3>18.2.1 更多的替换选项</h3>
+
+<p>s(substitute)</p>
+
+<h4>1. 替换标记</h4>
+
+<pre><code>sed 's/test/trial/' data5
+</code></pre>
+
+<p>默认情况只替换每行的第一个test</p>
+
+<p><code>替换标记</code></p>
+
+<pre><code>s/pattern/replacement/flags
+</code></pre>
+
+<p>flags</p>
+
+<ul>
+<li>数字, 表明新文本将替换第几处模式匹配的地方</li>
+<li>g, 新文本替换所有已有文本出现的地方</li>
+<li>p, 原来行的内容要打印出来</li>
+<li>w file, 将替换结果写到文件中</li>
+</ul>
+
+
+<p><code>-n</code>选项禁止sed输出,<code>p</code>标记会输出修改过的行,两者配合使用则只输出被substitute命令修改过的行</p>
+
+<p>w标记会产生同样的输出,不过会输出保存到指定的文件,只有那些包含模式匹配的行才会保存在指定的输出文件中</p>
+
+<h4>2. 替换字符</h4>
+
+<p>sed 处理中用<code>/</code>来分割pattern和replacement,如果pattern或replacement中有<code>/</code>(如目录),就需要有<code>\</code>来转义</p>
+
+<pre><code>sed `s/\/bin\/bash/\/bin\/csh/' /etc/passwd
+</code></pre>
+
+<p>sed允许substitute命令中用其他字符来进行分割</p>
+
+<pre><code>sed `s!/bin/bash!/bin/csh!` /etc/passwd
+</code></pre>
+
+<p>这里使用<code>!</code>来进行分割</p>
+
+<h3>18.2.2 使用地址</h3>
+
+<p>默认命令会作用于所有行, 如果只想命令作用于特定行或者某些行, 要使用<strong>行寻址(line addressing)</strong></p>
+
+<ul>
+<li>行的数字范围</li>
+<li><p>用文本模式来过滤出某行</p>
+
+<p>  [address]command
+  或
+  address {
+  command1
+  command2
+  }</p></li>
+</ul>
+
+
+<h4>1. 数字方式的行寻址</h4>
+
+<pre><code>sed '2s/dog/cat/' data1
+
+sed '2,3s/dog/cat/' data1 #使用范围,注意是逗号
+
+sed '2,$s/dog/cat/' data1 #到末尾
+</code></pre>
+
+<h4>2. 使用文本模式过滤器</h4>
+
+<pre><code>/pattern/command
+</code></pre>
+
+<p>使用文本模式来过滤出命令要作用的行</p>
+
+<pre><code>sed '/pattern/s/string/replace/' file
+</code></pre>
+
+<p>pattern可以使用正则表达式(regular expression)</p>
+
+<h4>3. 组合命令</h4>
+
+<pre><code>sed '2{
+s/fox/elephant/
+s/dog/cat/
+}'
+</code></pre>
+
+<p>多条命令</p>
+
+<h3>18.2.3 删除行</h3>
+
+<p><code>delete</code>命令, 删除匹配的行</p>
+
+<pre><code>sed '3d' data7  #删除第3行
+
+sed '/pattern/d' file
+</code></pre>
+
+<p>用两个文本模式删除某个范围内的行</p>
+
+<pre><code>sed '/1/,/3/d' data6  #删除匹配模式/1/到匹配模式/3/之间的所有行,包括这两行
+</code></pre>
+
+<p>/1/打开行删除,/3/关闭行删除,下一个匹配/1/时,删除行模式又被打开,直到下一个/3/</p>
+
+<h3>18.2.3 插入和附加文本</h3>
+
+<ul>
+<li>插入(insert)命令<code>i</code>会在指定行前增加一个新行</li>
+<li>追加(append)命令<code>a</code>会在指定行后增加一个新行</li>
+</ul>
+
+
+<p>格式</p>
+
+<pre><code>sed '[address]command\
+new line'
+
+echo "Test Line 2" | sed 'i\Test line 1'
+
+echo "Test line 2" | sed 'a\Test line 1'
+
+echo "Test line2"  | sed 'i\
+Test line 1'
+</code></pre>
+
+<p>指定行地址, 可以是数字行号或文本模式,但不能用地址区间</p>
+
+<pre><code>sed '3i\
+This is an inserted line.' data3 #插入到第三行前
+
+sed '3i\
+This is an inserted line.' data3 #插入到第三行之后
+</code></pre>
+
+<p>插入多行,用<code>\</code>隔开</p>
+
+<pre><code>sed '1i\
+This is one line of new text.\
+This is another line of new text.' data7
+</code></pre>
+
+<h3>18.2.5 修改行</h3>
+
+<p><code>change</code>命令</p>
+
+<pre><code>sed '3c\
+This is a changed line of text.' data7
+</code></pre>
+
+<p>也可使用文本模式</p>
+
+<pre><code>sed '/number 3/c\
+This is a changed line of text.' data7
+</code></pre>
+
+<p>修改匹配的所有行</p>
+
+<p>可以使用地址区间,但是用一行文本来替换整个区间</p>
+
+<h3>18.2.6 转换命令</h3>
+
+<p>转换(transform, y)命令是唯一可以处理单个字符的sed编辑器命令</p>
+
+<pre><code>[address]y/inchars/outchars/
+</code></pre>
+
+<p>inchars到outchars是一一映射</p>
+
+<pre><code>sed 'y/123/789/' data7
+</code></pre>
+
+<p>以一整行为单位,无法只转换一行当中的一部分</p>
+
+<h3>18.2.7 回顾打印</h3>
+
+<ul>
+<li>小写p命令用来打印文本行</li>
+<li>等号(=)命令用来打印行号</li>
+<li>l命令用来列出行号</li>
+</ul>
+
+
+<h4>1. 打印行</h4>
+
+<pre><code>echo "this is a test" | sed 'p'
+
+sed -n '/number 3/p' data7 #打印包含/number 3/模式的行
+
+sed -n '2,3p' data7 #打印2,3行
+
+sed -n '/3/{
+p
+s/line/test/p
+}' data7
+# 在修改之前查看
+</code></pre>
+
+<h4>2. 打印行号</h4>
+
+<pre><code>sed '=' data7
+
+sed -n '/number4/{
+=
+p
+}' data7
+</code></pre>
+
+<h4>3. 列出行</h4>
+
+<p>列出命令(l)允许打印数据流中的文本和不可打印的ASCII字符,任何不可打印字符都用它们的八进制值加一个反斜杠或标准的C风格命令法</p>
+
+<pre><code>This    line    contains    tabs
+sed -n 'l' data9
+This\tline\tcontains\ttabs$
+</code></pre>
+
+<h3>18.2.8 用sed和文件一起工作</h3>
+
+<h4>1. 向文件写入</h4>
+
+<p><code>w</code>命令,向文件写入行</p>
+
+<pre><code>[address]w filename
+
+sed '2,3w test' data7  #将data7的2,3行写入test文件
+
+sed -n '/IN/w INcustomers' data11 #将含有IN的行写入到INcustomers文件
+</code></pre>
+
+<h4>2. 从文件读取</h4>
+
+<p><code>r</code>命令,从文件读取</p>
+
+<pre><code>[address]r filename
+</code></pre>
+
+<p>不能读取一个区间,只能读取单独一个行号或者文本模式地址,sed会将文件中的文本插入到地址后</p>
+
+<pre><code>sed '3r data12' data7
+</code></pre>
+
+<p>比较好的用途是结合删除命令来替换文件中的数据</p>
+
+<pre><code>#letter
+Would the following people:
+LIST
+please report to the office.
+
+sed '/LIST/{
+r data11
+d
+}' letter
+</code></pre>
+
+<p>通过<code>r</code>命令来插入,在删除占位符</p>
+
+    </div>
+
+  
+    <ul class="tag_box inline">
+      <li><i class="icon-folder-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/categories.html#LCLSS-ref">
+    		LCLSS <span>23</span>
+    	</a></li>
+    
+  
+
+
+    </ul>
+    
+
+  
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/tags.html#LCLSS-ref">LCLSS <span>23</span></a></li>
+     
+    	<li><a href="/tags.html#linux-ref">linux <span>23</span></a></li>
+     
+    	<li><a href="/tags.html#学习-ref">学习 <span>34</span></a></li>
+     
+    	<li><a href="/tags.html#command line-ref">command line <span>22</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/LCLSS/2013/01/30/chapter17-lclss" title="图形化桌面上的脚本编程 chapte17 LCLSS">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next"><a href="/LCLSS/2013/01/31/chapter19-lclss" title="正则表达式 chapte19 LCLSS">Next &rarr;</a></li>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jekyllbootstrap'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+</div>
+
+      </div>
+      <hr>
+      <footer>
+        <p>&copy; 2013 dogeyes
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>
+        </p>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

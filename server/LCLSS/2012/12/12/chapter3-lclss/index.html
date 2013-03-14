@@ -1,0 +1,570 @@
+<link href="/assets/themes/twitter/css/pygments.css" rel="stylesheet">
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>基本的bash shell命令 chapter3 LCLSS</title>
+    <meta name="description" content="">
+    <meta name="author" content="dogeyes">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/assets/themes/twitter/bootstrap/css/bootstrap.2.2.2.min.css" rel="stylesheet">
+    <link href="/assets/themes/twitter/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Le fav and touch icons -->
+  <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container-narrow">
+          <a class="brand" href="/">dogeyes</a>
+          <ul class="nav">
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/pages.html">Pages</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+
+
+
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-narrow">
+
+      <div class="content">
+        
+<div class="page-header">
+  <h1>基本的bash shell命令 chapter3 LCLSS </h1>
+</div>
+
+<div class="row-fluid post-full">
+  <div class="span12">
+    <div class="date">
+      <span>12 December 2012</strong>
+    </div>
+    <div class="content">
+      <h1>chapter3 基本的bash shell命令</h1>
+
+<h2>3.1 启动shell</h2>
+
+<p><code>/etc/passwd</code>文件包含了所有系统用户账户列表以及每个用户的基本配置信息.</p>
+
+<pre><code> root:*:0:0:System Administrator:/var/root:/bin/sh
+</code></pre>
+
+<p>七个字段</p>
+
+<ol>
+<li>用户名</li>
+<li>密码</li>
+<li>用户的系统UID(用户ID)</li>
+<li>用户的系统GID(组ID)</li>
+<li>用户的全名</li>
+<li>用户的默认主目录</li>
+<li>用户默认的shell程序</li>
+</ol>
+
+
+<p>bash程序同样使用命令行参数来修改所启动shell的类型,bash支持的可定义启动shell类型的命令行参数</p>
+
+<table>
+
+  <tr>
+    <td>-c string</td>
+    <td>从string中读取命令并处理他们</td>
+  </tr>
+  
+  <tr>
+    <td>-r</td>
+    <td>启动限制性shell,限制用户在默认目录下活动</td>
+  </tr>
+  
+  <tr>
+    <td>-i</td>
+    <td>启动交互行shell,允许用户输入</td>
+  </tr>
+  
+  <tr>
+    <td>-s</td>
+    <td>从标准输入读取命令</td>
+  </tr>
+</table>
+
+
+<p>默认情况下,bash shell启动时会自动处理用户主目录下的<code>.bashrc</code>文件中的命令.许多linux发行版在此文件中加载特殊的<strong>共用文件</strong>,在共用文件中保存着针对所有系统用户的命令和设置,共用文件位于<code>/etc/bashrc</code>,它经常设置各种应用程序中用到的环境变量</p>
+
+<h2>3.2 shell提示符</h2>
+
+<p>bash shell提示符(默认$)</p>
+
+<p>有两个环境变量用来控制命令行提示符的格式:</p>
+
+<ul>
+<li>PS1: 控制默认命令提示符的格式</li>
+<li><p>PS2: 控制后续命令提示符的格式</p>
+
+<p>   echo $PS1</p>
+
+<p>   echo $PS2</p></li>
+</ul>
+
+
+<hr />
+
+<p>bash shell提示符字符</p>
+
+<hr />
+
+<p>可以通过设定PS1和PS2来改变提示符,但是这个提示符只在当前shell下有用,重新开启后又是默认的提示符</p>
+
+<pre><code> PS1="\t"
+</code></pre>
+
+<p>提示符变为时间</p>
+
+<h2>3.3 bash手册</h2>
+
+<pre><code> man date
+</code></pre>
+
+<p>查找<code>date</code>命令的bash 手册</p>
+
+<pre><code>man bash
+</code></pre>
+
+<p>通过空格下翻,也可以通过上下键来翻页,<code>q</code>退出</p>
+
+<h2>3.4 浏览文件系统</h2>
+
+<h3>3.4.1 Linux文件系统</h3>
+
+<p>Linux将文件存储在单个目录结构中,这个目录我们称为<strong>虚拟目录(virtual directory)</strong>.</p>
+
+<p><strong>根(root)</strong>目录</p>
+
+<p>Linux用<code>/</code>来划分目录.<code>\</code>用来转义</p>
+
+<p>第一块硬盘为<strong>根</strong>驱动器,包含了虚拟目录的核心,其他目录都是从这里开始构建的.</p>
+
+<p>虚拟目录会让文件和目录出现在这些挂载点目录中,然而实际上他们却存储在另外一个驱动器中.</p>
+
+<p>通常系统文件会存储在根驱动器中,而用户文件则存储在另一驱动器中.</p>
+
+<p>常见linux目录名称</p>
+
+<table border="1">
+  <tr>
+   <td>/</td>
+   <td>虚拟目录的根目录</td>
+  </tr>
+  <tr>
+   <td>/bin</td>
+   <td>二进制目录,存放许多GNU用户级工具</td>
+  </tr>
+  <tr>
+   <td>/boot</td>
+   <td>启动目录,存放启动文件</td>
+  </tr>
+  <tr>
+   <td>/dev</td>
+   <td>设备目录,Linux在这里创建设备节点</td>
+  </tr>
+  <tr>
+   <td>/etc</td>
+   <td>系统配置文件目录</td>
+  </tr>
+  <tr>
+   <td>/home</td>
+   <td>主目录,Linux在这里创建用户目录</td>
+  </tr>
+  <tr>
+   <td>/lib</td>
+   <td>库目录,存放系统和应用程序的库文件</td>
+  </tr>
+  <tr>
+   <td>/media</td>
+   <td>媒体目录,存放可移动媒体设备挂载点的地方</td>
+  </tr>
+  <tr>
+   <td>/mnt</td>
+   <td>挂载目录,另一个存放可移动媒体设备挂载点的地方</td>
+  </tr>
+  <tr>
+   <td>/opt</td>
+   <td>可选目录,通常用于存放可选的软件包</td>
+  </tr>
+  <tr>
+   <td>/root</td>
+   <td>根主目录</td>
+  </tr>
+  <tr>
+   <td>/sbin</td>
+   <td>系统二进制目录,存放许多GNU管理员级工具</td>
+  </tr>
+  <tr>
+   <td>/tmp</td>
+   <td>临时目录,可以在该目录中创建和删除临时工作文件</td>
+  </tr>
+  <tr>
+   <td>/usr</td>
+   <td>用户安装软件的目录</td>
+  </tr>
+  <tr>
+   <td>/var</td>
+   <td>可变目录,用于存放经常彼岸花的文件,比如日志文件</td>
+  </tr>
+</table>
+
+
+<h3>3.4.2 遍历目录</h3>
+
+<p><code>cd destination</code> 命令来切换目录到destination</p>
+
+<ul>
+<li>绝对文件路径 以虚拟目录的根目录开始,相当于目录的全名</li>
+<li>相对文件路径 基于当前位置的文件路径
+
+<ul>
+<li>单点符(.),当前目录</li>
+<li>双点符(..), 当前目录的父目录</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>3.5 文件和目录列表</h2>
+
+<p><code>ls</code> 命令显示系统上有哪些文件</p>
+
+<h3>3.5.1 基本列表功能</h3>
+
+<p><code>ls</code> 最基本的格式会显示当前目录下的文件和目录</p>
+
+<p>输出列表按字母排序(按列排序,而不是按行排序)</p>
+
+<p>还支持不同的颜色区分不同类型的文件,<code>LS_COLORS</code> 环境变量控制这个功能</p>
+
+<p>如果终端不支持彩色,可以用<code>-F</code>参数来区分文件和目录</p>
+
+<p>隐藏文件以<code>.</code>开始,不会在一般ls下显示</p>
+
+<p><code>ls -a</code> 显示所有文件,包括隐藏文件</p>
+
+<p><code>-R</code> 列出目录下包含的目录中的文件</p>
+
+<h3>3.5.2 修改输出信息</h3>
+
+<p><code>-l</code> 参数产生长列表格式,包含更多信息</p>
+
+<ul>
+<li>文件类型</li>
+<li>文件权限</li>
+<li>文件硬链接总数</li>
+<li>文件属主的用户名</li>
+<li>文件属组的组名</li>
+<li>文件的大小(字节为单位)</li>
+<li>文件上次修改时间</li>
+<li>文件名或目录名</li>
+</ul>
+
+
+<h3>3.5.3 完整的参数列表</h3>
+
+<p><code>man</code> 之</p>
+
+<ul>
+<li>单字母 通常<code>-</code>开始</li>
+<li>全字参数 通常<code>--</code>开始</li>
+</ul>
+
+
+<p>文件或目录的索引节点是内核分配给文件系统中每个对象的唯一标识符.</p>
+
+<h3>3.5.4 过滤输出列表</h3>
+
+<p>过滤器就是进行简单文字匹配的字符串,在命令行参数之后添加过滤器</p>
+
+<p>通配符</p>
+
+<ul>
+<li>问号代表一个字符</li>
+<li>星号代表零个或多个字符</li>
+</ul>
+
+
+<h2>3.6 处理文件</h2>
+
+<h3>3.6.1 创建文件</h3>
+
+<p><code>touch test</code> 创建test文件</p>
+
+<p><code>touch</code> 还可以改变文件的访问时间和修改时间,而不改变文件的内容</p>
+
+<p><code>-a</code> 参数只改变访问时间,<code>-m</code> 参数只改变修改时间, <code>-t</code> 参数指定要修改的成的时间</p>
+
+<h3>3.6.2 复制文件</h3>
+
+<p><code>cp source destination</code> 从源对象复制到目标对象</p>
+
+<h3>3.6.3 链接文件</h3>
+
+<p>虚拟副本-<strong>链接</strong></p>
+
+<ul>
+<li>符号链接,即软链接</li>
+<li>硬链接</li>
+</ul>
+
+
+<p>硬链接会创建一个独立的文件,包含源文件的信息以及位置,应用链接文件等同于引用源文件</p>
+
+<p><code>cp -l test1 test2</code> test2是test1的硬链接,两个文件的索引节点相同,链接计数增加</p>
+
+<p>只能在同种存储媒体上的文件之间创建硬链接</p>
+
+<p><code>-s</code> 创建软连接</p>
+
+<p><code>ln</code> 也可创建链接,默认创建硬链接,<code>-s</code> 创建软链接</p>
+
+<p><code>cp</code> 命令来复制一个链接到另一个源文件的文件,复制的是源文件的副本,而不是链接文件.</p>
+
+<p>可以创建指向源文件的新链接,而不用复制链接文件,可以创建指向同一文件的多个链接,但不要创建指向符号链接文件的多个符号链接,这样会生成一个链接文件链,容易混淆,而且容易断</p>
+
+<h3>3.6.4 重命名文件</h3>
+
+<p><code>mv source dest</code> 将源文件移动到目标位置</p>
+
+<p>移动有软链接指向的文件要小心,链接会失效</p>
+
+<h3>3.6.5 删除文件</h3>
+
+<p><code>rm test</code> 删除test文件</p>
+
+<p>硬链接会一直维持索引节点号,直到删除最后一个硬链接它的文件.软连接会无效</p>
+
+<h2>3.7 处理目录</h2>
+
+<h3>3.7.1 创建目录</h3>
+
+<p><code>mkdir</code></p>
+
+<h3>3.7.2 删除目录</h3>
+
+<p><code>rmdir</code> 默认只删除空目录</p>
+
+<p><code>rm -r dir2</code> 删除dir2目录下的文件和目录本身,但是会有提醒,加<code>-f</code>参数</p>
+
+<h3>3.8 查看文件内容</h3>
+
+<h3>3.8.1 查看文件统计信息</h3>
+
+<p><code>stat</code> 命令查看文件的所有状态信息</p>
+
+<h3>3.8.2 查看文件类型</h3>
+
+<p><code>file</code> 命令查看文件类型</p>
+
+<ul>
+<li>文本文件</li>
+<li>可执行文件</li>
+<li>数据文件</li>
+</ul>
+
+
+<h3>3.8.3 查看整个文件</h3>
+
+<h4>1 cat命令</h4>
+
+<p><code>cat</code> 显示文件的内容 <code>-n</code> 行号</p>
+
+<h4>2 more命令</h4>
+
+<p><code>more</code> 显示文件</p>
+
+<h4>3 less命令</h4>
+
+<pre><code> less is more
+</code></pre>
+
+<h3>3.8.4 查看部分文件</h3>
+
+<h4>1 tail命令</h4>
+
+<p>文件末尾部分,默认10行,可以参数<code>-n</code>设定</p>
+
+<p><code>-f</code> 参数让tail程序一直保持活动状态,有新内容加到末尾就显示</p>
+
+<h4>2 head命令</h4>
+
+<p>文件开头的几行</p>
+
+    </div>
+
+  
+    <ul class="tag_box inline">
+      <li><i class="icon-folder-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/categories.html#LCLSS-ref">
+    		LCLSS <span>23</span>
+    	</a></li>
+    
+  
+
+
+    </ul>
+    
+
+  
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/tags.html#学习-ref">学习 <span>34</span></a></li>
+     
+    	<li><a href="/tags.html#linux-ref">linux <span>23</span></a></li>
+     
+    	<li><a href="/tags.html#command line-ref">command line <span>22</span></a></li>
+     
+    	<li><a href="/tags.html#LCLSS-ref">LCLSS <span>23</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/Jekyll/2012/12/07/markdown-tutorial" title="markdown tutorial">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next"><a href="/LCLSS/2012/12/17/chapter4-lclss" title="更多的bash shell命令 chapter4 LCLSS">Next &rarr;</a></li>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jekyllbootstrap'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+</div>
+
+      </div>
+      <hr>
+      <footer>
+        <p>&copy; 2013 dogeyes
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>
+        </p>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

@@ -1,0 +1,492 @@
+<link href="/assets/themes/twitter/css/pygments.css" rel="stylesheet">
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>更多的bash shell命令 chapter4 LCLSS</title>
+    <meta name="description" content="">
+    <meta name="author" content="dogeyes">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/assets/themes/twitter/bootstrap/css/bootstrap.2.2.2.min.css" rel="stylesheet">
+    <link href="/assets/themes/twitter/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Le fav and touch icons -->
+  <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container-narrow">
+          <a class="brand" href="/">dogeyes</a>
+          <ul class="nav">
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/pages.html">Pages</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+
+
+
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-narrow">
+
+      <div class="content">
+        
+<div class="page-header">
+  <h1>更多的bash shell命令 chapter4 LCLSS </h1>
+</div>
+
+<div class="row-fluid post-full">
+  <div class="span12">
+    <div class="date">
+      <span>17 December 2012</strong>
+    </div>
+    <div class="content">
+      <h1>第4章 更多的bash shell命令</h1>
+
+<h2>4.1 监测程序</h2>
+
+<h3>4.1.1 探查进程</h3>
+
+<p>进程(process) 是程序运行在系统上</p>
+
+<p><code>ps</code> 显示系统上所有程序的许多信息</p>
+
+<p>参数多,非常复杂</p>
+
+<p>默认情况下只显示当前用户的进程</p>
+
+<p>进程号(PID, Process ID)</p>
+
+<p>终端(TTY)</p>
+
+<p><code>ps</code>命令曾经有两个版本,现在两个版本融合在一起了,使得问题更为复杂.</p>
+
+<p>3种不同的命令行参数</p>
+
+<ul>
+<li>Unix风格的参数,前面加单破折号</li>
+<li>BSD风格的参数,前面不加破折号</li>
+<li>GNU风格的长参数,前面加双破折号</li>
+</ul>
+
+
+<h4>1. Unix风格的参数</h4>
+
+<ul>
+<li><code>-A</code> 显示所有</li>
+<li><code>-N</code> 显示与指定参数不符的所有进程</li>
+<li><code>-a</code> 显示除控制进程(session leader)和无终端的进程外的所有进程</li>
+<li><code>-d</code> 显示除控制进程外的所有进程</li>
+<li><code>-e</code> 显示所有进程</li>
+<li><code>-C cmdlist</code> 显示包含在<em>cmdlist</em>列表中的进程</li>
+<li><code>-G grplist</code> 显示组ID在<em>grplist</em>列表中的进程</li>
+<li><code>-U userlist</code> 显示属主的用户ID在<em>userlist</em>列表中的进程</li>
+<li><code>-g grplist</code> 显示会话或组ID在<em>grplist</em>列表中的进程</li>
+</ul>
+
+
+<p>跪了,都列出来有意义吗?</p>
+
+<p>想多了</p>
+
+<p><code>ps -ef</code> 显示所有进程的完整格式</p>
+
+<p><code>ps -l</code> 长格式输出</p>
+
+<p><code>-H</code> 可以把输出进程组织成一个层级格式</p>
+
+<h4>2. BSD风格的参数</h4>
+
+<h4>3. GNU全字参数</h4>
+
+<p><code>--forest</code> 参数,显示进程的层级信息</p>
+
+<h3>4.1.2 实时监测进程</h3>
+
+<p><code>ps</code>只能看某一时间点的进程及其状态</p>
+
+<p><code>top</code> 可以观察频繁换进换出内存的进程的趋势</p>
+
+<p>系统概况:当前时间,系统运行时间,登入的用户数,系统平均负载</p>
+
+<p>系统平均负载: 1分钟,5分钟,15分钟</p>
+
+<p><code>top</code> 交互式命令</p>
+
+<h3>4.1.3 结束进程</h3>
+
+<p>Linux上,进程间通过<strong>信号</strong>来通信</p>
+
+<ul>
+<li>1  HUP   挂起</li>
+<li>2  INT   中断</li>
+<li>3  QUIT  结束运行</li>
+<li>9  KILL  无条件终止</li>
+<li>11 SEGV  段错误</li>
+<li>15 TERM  尽可能终止</li>
+<li>17 STOP  无条件停止运行,但不终止</li>
+<li>18 TSTP  停止或暂停, 但继续在后台运行</li>
+<li>19 CONT  在STOP或TSTP之后恢复执行</li>
+</ul>
+
+
+<p>两个命令可以向进程发送信号: <code>kill</code> 和 <code>killall</code></p>
+
+<h4>1 kill命令</h4>
+
+<p>通过PID给进程发送信号,默认发送TERM信号, 只能用PID不能用命令名</p>
+
+<p>要发送信号,必须是root或者进程的属主</p>
+
+<p><code>kill PID</code></p>
+
+<p>如果程序忽略TERM信号,就要用其他信号,通常先试试TERM信号,再试试HUP或者INT信号,KIll信号最强,直接终止进程,有可能损坏文件</p>
+
+<p><code>kill -s HUP 309</code> 挂起309进程</p>
+
+<h4>2 killall命令</h4>
+
+<p>支持通过进程名来结束进程,支持通配符</p>
+
+<p><code>killall http*</code> 结束http开头的所有进程</p>
+
+<h2>4.2 检测磁盘空间</h2>
+
+<h3>4.2.1 挂载存储媒体</h3>
+
+<p>把存储媒体放在虚拟目录下,成为<strong>挂载</strong></p>
+
+<p>可移动存储媒体  自动挂载</p>
+
+<h4>mount命令</h4>
+
+<p><code>mount</code>  默认输出所有当前挂载的媒体</p>
+
+<ul>
+<li>媒体的设备文件名</li>
+<li>媒体挂载到虚拟目录的挂载点</li>
+<li>文件系统类型</li>
+<li>已挂载媒体的访问状态</li>
+</ul>
+
+
+<p><code>mount -t type device directory</code> 手动挂载命令  type指定了磁盘被格式化的文件系统类型</p>
+
+<ul>
+<li>vfat</li>
+<li>ntfs</li>
+<li>iso9660</li>
+</ul>
+
+
+<p><code>mount -t vfat /dev/sdb1 /media/disk</code> 将vfat类型sdb1 挂载到 /media/disk目录</p>
+
+<h4>umount命令</h4>
+
+<p>移除一个设备要先卸载</p>
+
+<p><code>umount [directory | device ]</code> 支持通过设备文件或挂载点来指定要卸载的设备,若有程序在运行则不允许卸载(device is busy)</p>
+
+<p><code>lsof [directory | device]</code> 可以查看访问或者使用设备的进程,无法卸载时,先使用该命令看进程</p>
+
+<h3>4.2.2 使用df命令</h3>
+
+<p><code>df</code> 命令查看已挂载磁盘的使用情况</p>
+
+<ul>
+<li>设备的设备文件位置</li>
+<li>能容纳多少个x块  (x不一定有1k,有500)</li>
+<li>已使用</li>
+<li>未使用</li>
+<li>使用空间比</li>
+<li>挂载到了哪个挂载点上</li>
+</ul>
+
+
+<p><code>df -h</code> 比较容易读的形式</p>
+
+<h4>du命令</h4>
+
+<p><code>du</code> 显示特定目录(默认为当前目录)的磁盘使用情况</p>
+
+<p>这个列表是从一个目录层级的最底部开始的,然后按文件,子目录,目录逐级向上的</p>
+
+<p>默认命令并没有太大用处</p>
+
+<p><code>-c</code> 显示所有已列出文件总的大小
+<code>-h</code> 人类可读方式输出
+<code>-s</code> 显示每个输出参数的总计</p>
+
+<p><code>du -sh *</code> 可以显示当前目录下每个文件和目录的大小</p>
+
+<h2>4.3 处理数据文件</h2>
+
+<h3>4.3.1 数据排序</h3>
+
+<p><code>sort file</code> 对file文件内容进行默认排序,貌似是按照字符串进行排序的</p>
+
+<p><code>sort -n file</code> 按照数字进行排序</p>
+
+<p><code>sort -M file</code> 按照月份(month)进行排序</p>
+
+<p><code>-k</code> 和 <code>-t</code> 参数也比较有用,<code>-t</code>确定域的分隔符,<code>-k</code>确定按第几个域进行排序</p>
+
+<p><code>sort -t ':' -k 3 -n /etc/passwd</code> 对passwd每行按<code>:</code>进行分割,按第三个域进行排序</p>
+
+<p><code>du sh * | sort -nr</code> 可以按大小查看当前目录下文件和目录的大小</p>
+
+<h3>4.3.2 搜索数据</h3>
+
+<p><code>grep [options] pattern [file]</code> 命令来搜索某一行</p>
+
+<p><code>-v</code> 选项显示那些不匹配的行</p>
+
+<p><code>-n</code> 选项在行前显示行号</p>
+
+<p><code>-c</code> 仅显示搜索到的行数</p>
+
+<p><code>-e</code> 可以添加多个pattern, 或操作<code>grep -e [pattern1] -e [pattern2] file</code></p>
+
+<p><code>egrep</code> 命令是<code>grep</code>的一个分支,允许POSIX正则表达式</p>
+
+<p><code>fgrep</code> 允许将一系列字符串作为pattern, 比如输入一个含多个字符串的文件.</p>
+
+<h3>4.3.3 数据压缩</h3>
+
+<h4>bzip2工具</h4>
+
+<ul>
+<li><code>bzip2</code> 压缩文件</li>
+<li><code>bzcat</code> 显示压缩文件的内容</li>
+<li><code>bunzip2</code> 解压<code>.bz2</code> 文件</li>
+<li><code>bzip2recover</code> 尝试修复损坏的文件</li>
+</ul>
+
+
+<p>默认压缩文件会替换源文件</p>
+
+<h4>gzip 工具</h4>
+
+<ul>
+<li>gzip</li>
+<li>gzcat</li>
+<li>gunzip</li>
+</ul>
+
+
+<h4>zip工具</h4>
+
+<ul>
+<li><code>zip</code> 压缩文件</li>
+<li><code>zipcloak</code> 加密压缩</li>
+<li><code>zipnote</code> 解压注释</li>
+<li><code>zipsplit</code> 将大的zip文件分成小的</li>
+<li><code>unzip</code> 解压文件</li>
+</ul>
+
+
+<p>zip的好处是可以用<code>-r</code>命令压缩整个文件夹</p>
+
+<h3>4.3.4 归档数据</h3>
+
+<p><code>tar function [options] object1 object2 ...</code></p>
+
+<p>function参数决定<code>tar</code>命令做什么工作</p>
+
+<p>function</p>
+
+<ul>
+<li><code>-A</code> 将一个归档文件连接到另一个归档文件之后</li>
+<li><code>-c</code> 新建归档文件</li>
+<li><code>-d</code> 检查一个归档文件和文件系统的差别</li>
+<li><code>--delete</code> 从归档文件中删除文件</li>
+<li><code>-r</code> 将文件压缩添加到一个归档文件的末尾</li>
+<li><code>-u</code> 用新文件替换旧文件,更新</li>
+<li><code>-x</code> 解压文件</li>
+</ul>
+
+
+<p>Option</p>
+
+<ul>
+<li><code>-C dir</code> 转换到一个特定的目录</li>
+<li><code>-f file</code> 输出到文件file</li>
+<li><code>-j</code> 重定向输出到bzip2进行压缩(tar 只进行归档不进行压缩?)</li>
+<li><code>-p</code> 保留文件许可(permission)</li>
+<li><code>-v</code> 列出正在进行处理的文件</li>
+<li><code>-z</code> 重定向到gzip进行压缩</li>
+</ul>
+
+
+    </div>
+
+  
+    <ul class="tag_box inline">
+      <li><i class="icon-folder-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/categories.html#LCLSS-ref">
+    		LCLSS <span>23</span>
+    	</a></li>
+    
+  
+
+
+    </ul>
+    
+
+  
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/tags.html#学习-ref">学习 <span>34</span></a></li>
+     
+    	<li><a href="/tags.html#linux-ref">linux <span>23</span></a></li>
+     
+    	<li><a href="/tags.html#command line-ref">command line <span>22</span></a></li>
+     
+    	<li><a href="/tags.html#LCLSS-ref">LCLSS <span>23</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/LCLSS/2012/12/12/chapter3-lclss" title="基本的bash shell命令 chapter3 LCLSS">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next"><a href="/LCLSS/2012/12/19/chapter5-lclss" title="使用linux环境变量 chapter5 LCLSS">Next &rarr;</a></li>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jekyllbootstrap'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+</div>
+
+      </div>
+      <hr>
+      <footer>
+        <p>&copy; 2013 dogeyes
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>
+        </p>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

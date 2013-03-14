@@ -1,0 +1,727 @@
+<link href="/assets/themes/twitter/css/pygments.css" rel="stylesheet">
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>控制脚本 chapte15 LCLSS</title>
+    <meta name="description" content="">
+    <meta name="author" content="dogeyes">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/assets/themes/twitter/bootstrap/css/bootstrap.2.2.2.min.css" rel="stylesheet">
+    <link href="/assets/themes/twitter/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Le fav and touch icons -->
+  <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container-narrow">
+          <a class="brand" href="/">dogeyes</a>
+          <ul class="nav">
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/pages.html">Pages</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+
+
+
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-narrow">
+
+      <div class="content">
+        
+<div class="page-header">
+  <h1>控制脚本 chapte15 LCLSS </h1>
+</div>
+
+<div class="row-fluid post-full">
+  <div class="span12">
+    <div class="date">
+      <span>29 January 2013</strong>
+    </div>
+    <div class="content">
+      <h1>第15章 控制脚本</h1>
+
+<h2>15.1 处理信号</h2>
+
+<h3>15.1.1 重温Linux信号</h3>
+
+<table>
+<thead>
+<tr>
+<th> </th>
+<th>信号</th>
+<th> 值   </th>
+<th>   描述     </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> </td>
+<td>1  </td>
+<td>SIGUP </td>
+<td>挂起进程     |</td>
+</tr>
+<tr>
+<td> </td>
+<td>2  </td>
+<td>SIGINT</td>
+<td>终止进程     |</td>
+</tr>
+<tr>
+<td> </td>
+<td>3  </td>
+<td>GIGQUIT</td>
+<td>停止进程    |</td>
+</tr>
+<tr>
+<td> </td>
+<td>9  </td>
+<td>SIGKILL</td>
+<td>无条件终止进程|</td>
+</tr>
+<tr>
+<td> </td>
+<td>15 </td>
+<td>SIGTERM</td>
+<td>无可能的话终止进程|</td>
+</tr>
+<tr>
+<td> </td>
+<td>17 </td>
+<td>SIGSTOP</td>
+<td>无条件停止进程,但不终止进程|</td>
+</tr>
+<tr>
+<td> </td>
+<td>18 </td>
+<td>SIGTSTP</td>
+<td>停止或暂停进程,但不终止进程|</td>
+</tr>
+<tr>
+<td> </td>
+<td>19 </td>
+<td>SIGCONT</td>
+<td>继续运行停止的进程|</td>
+</tr>
+</tbody>
+</table>
+
+
+<h3>15.1.2 产生信号</h3>
+
+<h4>1.终止进程</h4>
+
+<p><code>CTRL-C</code> 产生SIGINT信号,终止当前进程</p>
+
+<h4>2. 暂停进程</h4>
+
+<p><code>CTRL-Z</code> 产生SIGTSTP信号,停止当前进程</p>
+
+<p><code>PS</code>命令中<code>T</code>状态的进程表示停止的进程</p>
+
+<p><code>kill -9 PID</code> 饭送SIGKILL信号终止进程</p>
+
+<h3>15.1.3 捕捉信号</h3>
+
+<p><code>trap</code> 命令</p>
+
+<p><code>trap commands signals</code> 指定shell脚本要观察那些Linux信号并从shell中拦截, 如果脚本收到trap命令中列出的信号,他会阻止它被shell处理,而在本地处理它</p>
+
+<pre><code>trap "echo ' Sorry! I have traped Ctrl-C'" SIGINT SIGTERM
+echo this is a test program
+count=1
+while [ $count -le 10 ]
+do
+    echo "Loop #$count"
+    sleep 5
+    count=$[ $count + 1 ]
+done
+echo This is the end of the test program
+</code></pre>
+
+<p>每次使用'CTRIL-C'组合键,脚本都会执行trap命令中指定的echo语句,而不是忽略此信号并允许shell停止该脚本</p>
+
+<h3>15.1.4 捕捉脚本的退出</h3>
+
+<p>捕捉shell脚本的退出, 在<code>trap</code>命令后面加上EXIT就行</p>
+
+<pre><code>trap "echo byebye" EXIT
+
+count=1
+while [ $count -le 5 ]
+do
+  echo "Loop #$count"
+  sleep 3
+  count=$[ $count + 1 ]
+done
+</code></pre>
+
+<h3>15.1.5 移除捕捉</h3>
+
+<pre><code>trap "echo byebye" EXIT
+
+count=1
+while [ $count -le 5 ]
+do
+  echo "Loop #$count"
+  sleep 3
+  count=$[ $count + 1 ]
+done
+
+trap - EXIT  #移除捕捉EXIT信号
+</code></pre>
+
+<p>如果捕捉到信号在移除之前那么信号还是会本处理</p>
+
+<h2>15.2 以后台模式运行脚本</h2>
+
+<p>后台(background)</p>
+
+<h3>15.2.1 后台运行脚本</h3>
+
+<p>在命令后加<code>&amp;</code>符号</p>
+
+<pre><code>./test &amp;
+</code></pre>
+
+<h3>15.2.2 运行多个后台作业</h3>
+
+<p>可以通过<code>ps</code>命令来查看运行中的脚本</p>
+
+<h3>15.2.3 退出终端</h3>
+
+<p>ps命令的输出中,每个后台进程都绑定到了该终端会话的终端上(pts/0),如果进程会话退出,后台进程也会退出</p>
+
+<h3>15.3 在非控制台下运行脚本</h3>
+
+<p>在终端会话中启动脚本,然后让进程一直以后台模式运行,直到其完成,即使退出了终端</p>
+
+<p><code>nohup</code> 命令</p>
+
+<p><code>nohup</code> 命令运行了另外一个命令来阻断所有发送给该进程的SIGHUP信号</p>
+
+<pre><code>nohup ./test1 &amp;
+</code></pre>
+
+<p>STDOUT和STDERR被重定向到nohup.out文件</p>
+
+<h2>15.4 作业控制</h2>
+
+<p>启动,停止,无条件终止,恢复作业--作业控制</p>
+
+<h3>15.4.1 查看作业</h3>
+
+<p><code>jobs</code> 命令,显示当前作业</p>
+
+<ul>
+<li>-l 列出进程PID和作业号</li>
+<li>-n 列出上次shell发出的通知后改变了状态的作业</li>
+<li>-p 只列出作业的PID</li>
+<li>-r 只列出运行中的作业</li>
+<li>-s 只列出已停止的作业</li>
+</ul>
+
+
+<p><code>+</code>表示默认作业</p>
+
+<p><code>-</code>表示下一个默认作业</p>
+
+<h3>15.4.2 重启停止的作业</h3>
+
+<p><code>bg 作业号</code> 后台重启</p>
+
+<p><code>fg 作业号</code> 前台重启</p>
+
+<h2>15.5 调度谦让度</h2>
+
+<p>默认所有进程具有相同的<strong>调度优先级(schduling priority)</strong></p>
+
+<p>-20(最高优先级)到+20(最低优先级),默认使用0级来启动</p>
+
+<p><code>nice</code> 命令,调整优先级</p>
+
+<h3>15.5.1 nice命令</h3>
+
+<p><code>nice -n 10 ./test4 &gt; test4out &amp;</code></p>
+
+<p>貌似普通用户只能降低优先级</p>
+
+<h3>15.5.2 renice命令</h3>
+
+<p><code>renice</code> 改变系统上已经运行命令的优先级</p>
+
+<pre><code>renice 10 -p PID
+</code></pre>
+
+<p>将PID进程的优先级调整到10</p>
+
+<h2>15.6 定时运行作业</h2>
+
+<p><code>at</code>命令</p>
+
+<p><code>cron</code>表</p>
+
+<h3>15.6.1 用at命令来计划执行作业</h3>
+
+<p><code>at</code>的守护进程<code>atd</code>以后台模式运行,并检查作业队列来运行作业</p>
+
+<p><code>atd</code> 会检查系统上的一个特殊目录(通常位于/var/spool/at)来获取用<code>at</code>命令提交的作业,如果作业时间和当前时间匹配,atd守护进程会运行此作业</p>
+
+<h4>1. at命令的格式</h4>
+
+<p><code>at [ -f filename ] time</code></p>
+
+<p>默认情况下<code>at</code>会将STDIN的输入放到队列中,可以用<code>-f</code>参数来指定读取的命令(脚本)的文件名</p>
+
+<p>时间</p>
+
+<ul>
+<li>小时分钟格式, 如10:15</li>
+<li>~AM/~PM指示符,比如10:15~AM</li>
+<li>特定可命名的时间,比如now,noon,midnight或者teatime(4~PM)</li>
+</ul>
+
+
+<p>如果时间已经过去,那么会在第二天运行该作业</p>
+
+<p>日期</p>
+
+<ul>
+<li>标准日期格式MMDDYY, MM/DD/YY或DD.MM.YY</li>
+<li>文本格式,比如Jul 4或Dec 25</li>
+</ul>
+
+
+<p>时间增量</p>
+
+<ul>
+<li>当前时间+25min</li>
+<li>明天10:15~25min</li>
+<li>10:15+7天</li>
+</ul>
+
+
+<p>(应该是英文吧…)</p>
+
+<p>使用<code>at</code>命令,作业会被提交到<strong>作业队列(job queue)</strong>中</p>
+
+<p>针对不同的优先级,有26种不同的作业队列,a-z</p>
+
+<p>字母排序越高,优先级越低,<code>-q</code>参数指定优先级</p>
+
+<h4>2. 获取作业的输出</h4>
+
+<p>作业默认输出到所有者的mail?,如果脚本没有任何输出,默认不生成邮件,<code>-m</code>选项使得无论是否有输出都会生成一封邮件</p>
+
+<h4>3. 列出等待的作业</h4>
+
+<p><code>atq</code> 命令查看系统中有哪些作业在等待</p>
+
+<h4>4. 删除作业</h4>
+
+<p><code>atrm 作业号</code> 删除作业</p>
+
+<h3>15.6.2 计划定期执行脚本</h3>
+
+<p><code>cron</code> 程序定期执行作业</p>
+
+<p><code>cron</code> 在后台运行并检查特殊的称作<strong>cron时间表(cron table)</strong>,来获得计划执行的作业</p>
+
+<h4>1. cron 时间表</h4>
+
+<p>格式</p>
+
+<pre><code>min hour dayofmonth month dayofweek command
+</code></pre>
+
+<p>允许用特定值,值范围(1~5),通配符(*)来指定条目</p>
+
+<pre><code>15 10 * * * command  #每天10:15执行命令command
+
+15 16 * * 1 command #每周一16:15分执行,周日是0
+
+00 12 1 * * command #每月第一天中午
+</code></pre>
+
+<p>每月最后一天,如何?</p>
+
+<pre><code>00 12 * * * if[`date +%d -d tomorrow` = 01 ];then; command
+</code></pre>
+
+<p>通过一个判断语句来实现</p>
+
+<p>命令列表必须是命令或者脚本的全路径名,可加重定向符</p>
+
+<pre><code>15 10 * * * /home/rich/test4 &gt; test4out
+</code></pre>
+
+<h4>2. 构建cron时间表</h4>
+
+<p><code>crontab</code>命令</p>
+
+<p><code>-l</code> 参数列出已有的时间表</p>
+
+<p><code>-e</code> 参数为cron时间表添加条目,会打开一个文本编辑器</p>
+
+<h4>3. cron目录</h4>
+
+<p>如果不要求精确的执行时间,用预配置的cron脚本目录会更方便</p>
+
+<ul>
+<li>/etc/cron.daily</li>
+<li>/etc/cron.hourly</li>
+<li>/etc/cron.monthly</li>
+<li>/etc/cron.weekly</li>
+</ul>
+
+
+<h4>4. anacron程序</h4>
+
+<p>cron对过期的命令不再执行</p>
+
+<p><code>anacron</code>知道作业错过了计划好的运行,会尽快执行作业,关机错过执行好的作业会自动运行</p>
+
+<p><code>anacron</code>只处理位于cron目录的程序,比如/etc/cron.monthly, 他用时间戳来决定作业是否在适当的计划间隔内运行了,每个cron目录都有一个时间戳文件,位于/var/spool/anacron</p>
+
+<p><code>anacron</code>有自己用来检查作业目录的表(通常位于/etc/anacrontab)</p>
+
+<p><code>anacron</code>时间表的格式与cron时间表略有不同</p>
+
+<pre><code>period delay identifier command
+
+1 5 cron.daily nice run-parts --report /etc/cron.daily
+</code></pre>
+
+<ul>
+<li>period 多久运行一次,以天为单位</li>
+<li>delay 在系统启动后多久运行错过的脚本</li>
+<li>command 包含run-parts程序和和一个cron脚本目录名, run-parts负责运行目录中传给他的任何脚本</li>
+<li>identifier 是一种特别的非空白字符串,如cron-weekly,用来唯一识别日志消息和错误E-mail中的作业</li>
+</ul>
+
+
+<p>anacron不运行hourly的脚本,因为它不处理小于一天的脚本</p>
+
+<h2>15.7 启动运行</h2>
+
+<h3>15.7.1 开机时运行脚本</h3>
+
+<h4>1. 开机过程</h4>
+
+<p>内核加载到内存并运行,第一件事情就是开始UNIX System V init过程或Upstart init过程,然后这个进程负责启动Linux系统上的所有其他进程</p>
+
+<ul>
+<li>System V init过程</li>
+</ul>
+
+
+<p>读取<code>/etc/inittab</code>文件, inittab列出系统运行级(run level), 不同的运行级启动不同的程序和脚本</p>
+
+<p>Red Hat</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>运行级   </th>
+<th>描述      </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>0       </td>
+<td> 关机     |</td>
+</tr>
+<tr>
+<td></td>
+<td>1       </td>
+<td>单用户    |</td>
+</tr>
+<tr>
+<td></td>
+<td>2       </td>
+<td>多用户,不支持网络|</td>
+</tr>
+<tr>
+<td></td>
+<td>3       </td>
+<td>全功能多用户,支持网络|</td>
+</tr>
+<tr>
+<td></td>
+<td>4       </td>
+<td>可定义用户         |</td>
+</tr>
+<tr>
+<td></td>
+<td>5       </td>
+<td>多用户模式,支持网络和图形化X Window会话|</td>
+</tr>
+<tr>
+<td></td>
+<td>6       </td>
+<td>重启      |</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>Debian发行版,如ubuntu和Linux Mint,不区分2-5级</p>
+
+<p>Ubuntu甚至没有/etc/inittab文件,默认运行级2, 可以创建一个/etc/inittab文件来修改默认优先级</p>
+
+<p><strong>开机脚本(startup script)</strong></p>
+
+<p>有些发行版本将开机脚本放在<code>/etc/rc#.d</code>目录, #是运行级</p>
+
+<p>其他使用<code>/etc/init.d</code>目录</p>
+
+<p>还有些使用<code>/etc/init.d/rc.d</code>目录</p>
+
+<ul>
+<li>Upstart init 过程</li>
+</ul>
+
+
+<p>不关心运行级,而关注时间</p>
+
+<p>系统开机称为<code>开机事件</code></p>
+
+<p><code>/etc/event.d</code>或者<code>/etc/init</code>目录下的文件来启动</p>
+
+<p>许多Upstart实现仍然会调用位于<code>/etc/init.d</code>和<code>/etc/rc#.d</code>目录总的脚本</p>
+
+<h4>2. 定义自己的开机脚本</h4>
+
+<p>最好不要和Linux发行版上已有的独立开机脚本文件混起来</p>
+
+<p>大多数发行版本提供了一个本地开机文件专门让系统管理员添加开机时运行脚本</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>发行版  </th>
+<th>文件位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>debian </td>
+<td>/ect/init.d/rc.local|</td>
+</tr>
+<tr>
+<td></td>
+<td>Fedora </td>
+<td>/etc/rc.d/rc.local|</td>
+</tr>
+<tr>
+<td></td>
+<td>Mandriva </td>
+<td>/etc/rc.local|</td>
+</tr>
+<tr>
+<td></td>
+<td>openSuse</td>
+<td>/etc/init.d/boot.local|</td>
+</tr>
+<tr>
+<td></td>
+<td>Ubuntu </td>
+<td>/etc/rc.local|</td>
+</tr>
+<tr>
+<td></td>
+<td>centos </td>
+<td>/etc/rc.local|</td>
+</tr>
+</tbody>
+</table>
+
+
+<h3>15.7.2 在新shell中启动</h3>
+
+<ul>
+<li>.bash_profile  新shell是<em>新登陆</em>生成</li>
+<li>.bashrc 新shell启动,包括新登录生成</li>
+</ul>
+
+
+<p>为所有用户运行一个脚本,<code>/etc/bashrc</code>文件</p>
+
+    </div>
+
+  
+    <ul class="tag_box inline">
+      <li><i class="icon-folder-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/categories.html#LCLSS-ref">
+    		LCLSS <span>23</span>
+    	</a></li>
+    
+  
+
+
+    </ul>
+    
+
+  
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/tags.html#LCLSS-ref">LCLSS <span>23</span></a></li>
+     
+    	<li><a href="/tags.html#linux-ref">linux <span>23</span></a></li>
+     
+    	<li><a href="/tags.html#学习-ref">学习 <span>34</span></a></li>
+     
+    	<li><a href="/tags.html#command line-ref">command line <span>22</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/LCLSS/2013/01/26/chapter14-lclss" title="呈现数据 chapter14 LCLSS">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next"><a href="/LCLSS/2013/01/29/chapter16-lclss" title="创建函数 chapte16 LCLSS">Next &rarr;</a></li>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jekyllbootstrap'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+</div>
+
+      </div>
+      <hr>
+      <footer>
+        <p>&copy; 2013 dogeyes
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>
+        </p>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

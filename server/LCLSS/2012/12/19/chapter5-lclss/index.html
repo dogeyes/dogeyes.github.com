@@ -1,0 +1,395 @@
+<link href="/assets/themes/twitter/css/pygments.css" rel="stylesheet">
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>使用linux环境变量 chapter5 LCLSS</title>
+    <meta name="description" content="">
+    <meta name="author" content="dogeyes">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/assets/themes/twitter/bootstrap/css/bootstrap.2.2.2.min.css" rel="stylesheet">
+    <link href="/assets/themes/twitter/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Le fav and touch icons -->
+  <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container-narrow">
+          <a class="brand" href="/">dogeyes</a>
+          <ul class="nav">
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/pages.html">Pages</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+
+
+
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-narrow">
+
+      <div class="content">
+        
+<div class="page-header">
+  <h1>使用linux环境变量 chapter5 LCLSS </h1>
+</div>
+
+<div class="row-fluid post-full">
+  <div class="span12">
+    <div class="date">
+      <span>19 December 2012</strong>
+    </div>
+    <div class="content">
+      <h1>第5章 使用linux环境变量</h1>
+
+<h2>5.1 什么是环境变量</h2>
+
+<p><code>环境变量(environment variables)</code> bash shell用来存储有关shell会话和工作环境的信息</p>
+
+<p>它允许你在内存中存储数据,这些数据可以用来标识用户账户,系统,shell的特性及其其他存储的数据</p>
+
+<ul>
+<li>全局变量</li>
+<li>局部变量</li>
+</ul>
+
+
+<h3>5.1.1 全局变量</h3>
+
+<p>全局变量不仅对shell会话可见,对shell创建的子进程也可见. 局部变量只对shell可见</p>
+
+<p>系统环境变量大写,区别于普通用户的环境变量</p>
+
+<p><code>printenv</code> 查看全局变量</p>
+
+<p><code>echo $HOME</code> 显示HOME环境变量的值</p>
+
+<h3>5.1.2 局部环境变量</h3>
+
+<p>局部环境变量只能在定义他们的进程中可见.</p>
+
+<p><code>set</code> 显示进程的所有环境变量(局部,全局),貌似没有方法访问单个局部变量,可以用<code>grep</code>啊</p>
+
+<h2>5.2 设置环境变量</h2>
+
+<h3>5.2.1 设置局部环境变量</h3>
+
+<p><code>test=testing</code> 设置<strong>test</strong>环境变量的值为<strong>testing</strong></p>
+
+<p><code>$test</code> 来引用test环境变量, 很简单</p>
+
+<p><code>test = 'testing a long string'</code> 将含有空格的字符串赋值给变量,要用<code>'</code>界定字符串的开始和结束</p>
+
+<p>自己创建的环境变量用小写,系统环境变量用大写,有助于区分</p>
+
+<p>环境变量,等号,值之间没有空格,否则错误,各部分被当成命令</p>
+
+<p>新建进程中无法使用之前的环境变量</p>
+
+<h3>5.2.2 设置全局环境变量</h3>
+
+<p>先创建一个局部环境变量,再把它导出到全局变量中</p>
+
+<p><code>export</code> 命令</p>
+
+<pre><code> $test=testing
+ $echo $test //有
+ $bash //新建进程
+ $echo $test //无,因为是局部变量
+ $exit //退回到主进程
+ $export test //将环境变量导出到全局变量
+ $bash
+ $echo $test //有
+</code></pre>
+
+<h2>5.3 删除环境变量</h2>
+
+<p><code>unset</code> 命令来删除环境变量</p>
+
+<p>在处理全局环境变量时比较麻烦,如果在子进程中删除了一个全局变量,它只对子进程有效,全局变量在父进程中依然有效</p>
+
+<p>因此要在父进程中删除?</p>
+
+<h2>5.4 默认shell环境变量</h2>
+
+<ul>
+<li>HOME</li>
+<li>PATH</li>
+<li>PS1</li>
+<li>PS2</li>
+</ul>
+
+
+<p>PATH环境变量是以<code>:</code>分割的shell查找命令的目录的列表,相当重要</p>
+
+<p>并不是说有变量都会在set时输出,因为不是说有变量都有值</p>
+
+<h2>5.5 设置PATH环境变量</h2>
+
+<p><code>PATH</code> 定义的命令行输入命令的搜索路径,如果找不到命令,会产生错误</p>
+
+<pre><code> echo $PATH
+ PATH=$PATH:/home/user/test
+</code></pre>
+
+<p>可以在PATH后面添加<code>/home/user/test</code> 目录</p>
+
+<pre><code>PATH=$PATH:.
+</code></pre>
+
+<p>将当前目录加到PATH,但是最好不要这样,会出问题的</p>
+
+<h2>5.6 定位系统环境变量</h2>
+
+<p>启动bash shell时,默认情况下bash在几个文件中查找命令,这些文件被称为<strong>启动文件</strong></p>
+
+<p>bash shell 3三种启动方式</p>
+
+<ol>
+<li>登录时当做默认登录shell</li>
+<li>作为非登录shell的交互式shell</li>
+<li>作为运行脚本的非交互shell</li>
+</ol>
+
+
+<h3>5.6.1 登录shell</h3>
+
+<p>4个启动文件</p>
+
+<ol>
+<li>/etc/profile</li>
+<li>$HOME/.bash_profile</li>
+<li>$HOME/.bash_login</li>
+<li>$HOME/.profile</li>
+</ol>
+
+
+<p>1是系统上默认的bash shell主启动文件,2,3,4是用户专有的启动文件</p>
+
+<h4>1. /etc/profile</h4>
+
+<p>bash shell的主启动文件,系统上每个用户登录时都会执行这个启动文件,执行里面的命令,不同的发行版放了不同的命令</p>
+
+<h4>2. $HOME目录下的启动文件</h4>
+
+<p>提供用户专属的启动文件来定义用户专有的环境变量</p>
+
+<h3>5.6.2 交互式shell</h3>
+
+<p>shell不是在登录时启用,而是通过<code>bash</code>命令启动的,称为交互式shell</p>
+
+<p>交互式shell不启动/etc/profile,而是去查看<code>$HOME/.bashrc</code>是否存在</p>
+
+<h3>5.6.3 非交互式shell</h3>
+
+<p>系统执行脚本时使用的shell</p>
+
+<p><code>BASH_ENV</code> 检查要启动的文件</p>
+
+<h2>5.7 可变数组</h2>
+
+<p>环境变量一个功能就是可以当做数组使用,值可以按单个值或整个数组来引用</p>
+
+<p><code>mytest=(one two three four five)</code> 括号包围,空格分隔</p>
+
+<p>但是<code>echo mytest</code> 只显示<code>one</code></p>
+
+<p><code>echo ${test[2]}</code> 引用test的第二个值(从0开始), 注意是大括号包围</p>
+
+<p><code>echo ${test[*]}</code> 显示整个数组</p>
+
+<p><code>test[2]=seven</code> 改变第二个值</p>
+
+<p><code>unset test[2]</code> 删除第二个值,但是</p>
+
+<p><code>echo ${test[2]}</code> 是空,而不是后面的前移,其他的不变</p>
+
+<p><code>unset test</code> 来删除整个数组</p>
+
+<p>可变数组和其他shell环境不通用,在多种shell环境下编写大量脚本会不便,因此不常用</p>
+
+<h2>5.8 使用命令别名</h2>
+
+<p><strong>命令别名</strong> 允许为通用命令(和他们的参数在一起)创建一个别名,这样就能通过最少的键入调用想要的命令了</p>
+
+<p><code>alias -p</code> 查看别名列表</p>
+
+<p><code>alias li='ls -il'</code> 创建li别名</p>
+
+<p>和局部环境变量差不多,自在定义他们的shell中有效</p>
+
+<p>当然可以在<code>.bashrc</code> 文件里定义别名,这样启动时运行这个文件的shell都会有这个别名</p>
+
+    </div>
+
+  
+    <ul class="tag_box inline">
+      <li><i class="icon-folder-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/categories.html#LCLSS-ref">
+    		LCLSS <span>23</span>
+    	</a></li>
+    
+  
+
+
+    </ul>
+    
+
+  
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/tags.html#LCLSS-ref">LCLSS <span>23</span></a></li>
+     
+    	<li><a href="/tags.html#学习-ref">学习 <span>34</span></a></li>
+     
+    	<li><a href="/tags.html#linux-ref">linux <span>23</span></a></li>
+     
+    	<li><a href="/tags.html#command line-ref">command line <span>22</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/LCLSS/2012/12/17/chapter4-lclss" title="更多的bash shell命令 chapter4 LCLSS">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next"><a href="/LCLSS/2012/12/19/chapter6-lclss" title="理解Linux文件权限 chapter6 LCLSS">Next &rarr;</a></li>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jekyllbootstrap'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+</div>
+
+      </div>
+      <hr>
+      <footer>
+        <p>&copy; 2013 dogeyes
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>
+        </p>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

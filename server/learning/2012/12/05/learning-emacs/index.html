@@ -1,0 +1,495 @@
+<link href="/assets/themes/twitter/css/pygments.css" rel="stylesheet">
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>learning emacs</title>
+    <meta name="description" content="">
+    <meta name="author" content="dogeyes">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/assets/themes/twitter/bootstrap/css/bootstrap.2.2.2.min.css" rel="stylesheet">
+    <link href="/assets/themes/twitter/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Le fav and touch icons -->
+  <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container-narrow">
+          <a class="brand" href="/">dogeyes</a>
+          <ul class="nav">
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/pages.html">Pages</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+
+
+
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-narrow">
+
+      <div class="content">
+        
+<div class="page-header">
+  <h1>learning emacs </h1>
+</div>
+
+<div class="row-fluid post-full">
+  <div class="span12">
+    <div class="date">
+      <span>05 December 2012</strong>
+    </div>
+    <div class="content">
+      <h2>Emacs</h2>
+
+<h3>Key</h3>
+
+<p><code>Shift</code>,<code>Control(Ctrl)</code>,<code>Meta(Alt)</code>(有时用<code>Esc</code>来替代)</p>
+
+<ul>
+<li><p><code>C-F1</code> 同时按<code>Ctrl</code>和<code>F1</code></p></li>
+<li><p><code>S-F1</code> 同时按<code>Shift</code>和<code>F1</code></p></li>
+<li><p><code>M-F1</code> 同时按<code>Meta</code>和<code>F1</code></p></li>
+<li><p><code>S-C-M-F1</code> 或 <code>C-M-S-F1</code> 按的顺序不重要</p></li>
+</ul>
+
+
+<p>《Teach Yourself Emacs in 24Hours》一书内容忒旧了，不爽，算了，看手册学吧。</p>
+
+<h3>emacs快速指南</h3>
+
+<p><code>C-h t</code>开启快速指南。</p>
+
+<p><code>C-x C-c</code>退出emacs</p>
+
+<h4>移动光标</h4>
+
+<p><code>C-v</code> 看下一屏文字，移动到下一屏</p>
+
+<p><code>M-v</code> 看上一屏文字，移动到上一屏</p>
+
+<p><code>C-l</code> 重绘屏幕，将光标置于屏幕中央，连续按会轮回上下中</p>
+
+<p><code>C-p</code> 光标移动到上一行 previous</p>
+
+<p><code>C-n</code> 光标移动到下一行 next</p>
+
+<p><code>C-b</code> 光标移动到左一列 backword</p>
+
+<p><code>C-f</code> 光标移动到右一列 forward</p>
+
+<p><code>M-f</code> 光标往前移动一个词</p>
+
+<p><code>M-b</code> 光标往后移动一个词</p>
+
+<p>惯例是<code>META</code>系列<em>由语言定义的单位(词 句子 段落)</em>, <code>CONTROL</code>系列<em>与语言无关(字符 行)</em></p>
+
+<p><code>C-a</code> 光标移动到一行的头部</p>
+
+<p><code>C-e</code> 光标移动到一行的尾部</p>
+
+<p><code>M-a</code> 光标移动到"一句"的头部</p>
+
+<p><code>M-e</code> 光标移动到"一句"的尾部</p>
+
+<p><code>M-&gt;</code> 光标移动到文件开始</p>
+
+<p><code>M-&lt;</code> 光标移动到文件结束</p>
+
+<p><code>C-u</code>+N+<code>命令</code> 执行N次命令 也可以按住<code>META</code>输入数字再输命令, <code>C-v</code>和<code>
+M-v</code>的数值参数制定的是滚动的行数而不是屏数.</p>
+
+<p><code>C-g</code> 终止命令 和 取消命令</p>
+
+<p>取消<code>Esc</code>的方法是按<code>C-g</code>或者再连按两次<code>Esc</code></p>
+
+<p>被禁用的命令</p>
+
+<p>一些命令被Emacs禁用了,输入这样的命令,Emacs会提醒你是否要继续,想要用就按<code>空格</code>,否则就按<code>n</code></p>
+
+<h4>窗格(windows)</h4>
+
+<p>Emacs可以有多个窗格</p>
+
+<p><code>C-x 1</code>只保留一个窗格(关掉其他所有窗格)</p>
+
+<p>以<code>C-x</code>开头的命令多跟"窗格,文件缓冲区"有关</p>
+
+<h4>插入和删除</h4>
+
+<p>插入直接输入就行了, 插入支持多个相同字符的插入</p>
+
+<p><code>C-u 8 *</code> 输入8个*</p>
+
+<p><code>Delback</code> 删除光标前的一个字符, <code>Delback</code>就是Backspace`</p>
+
+<p><code>C-d</code> 删除光标后的一个字符</p>
+
+<p><code>M-Delback</code> 删除光标前的一个词</p>
+
+<p><code>M-d</code> 删除光标后的一个词</p>
+
+<p><code>C-k</code> 删除从光标到<em>行尾</em>间的字符 单独的<code>C-k</code>不消除行末的换行符,联系按两次<code>C-k</code>消除一行及换行符,而<code>C-u 2 C-k</code>消除两行,及两行的换行符</p>
+
+<p><code>M-k</code> 删除从光标到<em>句尾</em>间的字符</p>
+
+<p><code>d</code>是<code>delete(删除)</code>  <code>k</code>是<code>kill(移除)</code></p>
+
+<p>移除缓冲区里的任意一部分:</p>
+
+<ol>
+<li><p>首先把光标移动到想要移除的区域的一端,按<code>C-@</code>设定mark(也可用<code>C-空格</code>,但是这个一般被设定成输入法热键了).</p></li>
+<li><p>将光标移动到另一端,按<code>C-w</code>移除两段之间的文字</p></li>
+</ol>
+
+
+<p>移除(kill)的东西可以找回来(只是看起来消失了而已),删除(delete)的东西无法找回. 重新插入被移除的东西被称为"召回(yank)". 一般来说消除很多文字的命令会把消除的文字记录下来("可召回"),而只删除一个字符或者直消除空白的命令不会记录被消除的内容("不可召回").</p>
+
+<p><code>C-y</code> 召回(yanking),可以在任何位置召回,多次召回同样的文字.</p>
+
+<p><code>M-y</code> 切换要召回的内容,先按<code>C-y</code>再按<code>M-y</code>会不断轮回召回的内容,下一次<code>C-y</code>召回的内容和前次召回的内容相同,但是移除的内容太多了怎么办?</p>
+
+<h4>撤销(undo)</h4>
+
+<p><code>C-x u</code> 撤销命令的效果, 前一条命令有多个效果,如使用了重复数字,那么全都消除.</p>
+
+<p>两个例外</p>
+
+<ol>
+<li><p>没改变文字的命令不算(移动光标和滚动命令)</p></li>
+<li><p>从键盘输入的字符以组为单位(每组20个字符)来进行处理</p></li>
+</ol>
+
+
+<p><code>C-_</code> 也是撤销,和<code>C-x u</code>作用一样,输入较少,但是较难按</p>
+
+<h4>文件(file)</h4>
+
+<p><code>C-x C-f</code> 寻找一个文件,屏幕最低端一行为小缓冲区(minibuffer),小缓冲区中也可以用Emacs命令来编辑文件名, 可用<code>C-g</code>取消</p>
+
+<p><code>C-x C-s</code> 保存文件</p>
+
+<p>第一次存盘的时候Emacs会将原文件重命名以备份. 重命名通常为源文件名后面加"~", 可以通过<code>M-x customize-variable 回车 make-backup-files 回车</code>来关掉</p>
+
+<p>查找一个不存在的文件就是新建该文件.</p>
+
+<h4>缓冲区(buffer)</h4>
+
+<p><code>C-x C-f</code>打开第二个文件后,第一个文件仍然在Emacs中,但是我们无法看到,要切回第一个文档可以用<code>C-x C-f</code>,但是这样非常麻烦.</p>
+
+<p>Emacs把编辑中的文件放在"缓冲区(buffer)", 没寻找到一个文件就在内部开辟一个缓冲区.</p>
+
+<p><code>C-x C-b</code> 列出缓冲区  还记的<code>C-x 1</code>吗? 只保留一个窗格, 缓冲区没关的.</p>
+
+<p>不管有多少缓冲区,都只能有一个<em>当前</em>缓冲区,当前正在编辑的缓冲区.</p>
+
+<p>切换缓冲区的方法:</p>
+
+<p><code>C-x b 缓冲区名字</code></p>
+
+<p>窗格中的任何文字都属于特定的缓冲区,但是缓冲区未必对应文件:比如显示缓冲区列表的缓冲区,或者"<em>Messages</em>"缓冲区对应的是Emacs底部出现的消息.</p>
+
+<p>切换到另一缓冲区并不会保存当前缓冲区到文件,因此需要手动用<code>C-x C-s</code>保存.</p>
+
+<p><code>C-x s</code>保存多个缓冲区</p>
+
+<h4>命令集的扩展</h4>
+
+<p>光用<code>control</code>和<code>meta</code>键无法表示所有命令,因此Emacs加入了扩展(eXtend)命令来解决这个问题(注意<code>eXtend</code>), 扩展有两种风格:</p>
+
+<p><code>C-x 命令</code> 字符扩展, <code>C-x</code>之后输入另一个字符或者组合键 如<code>C-x C-f</code> <code>C-x C-c</code> <code>C-x C-s</code>等</p>
+
+<p><code>M-x 命令</code> 命令名扩展, <code>M-x</code> 之后输入一个命令名</p>
+
+<p><code>C-z</code> 暂停Emacs 暂时离开Emacs, 可以通过<code>fg</code>或者<code>%emacs</code>命令唤回,一般情况下不用<code>C-x C-c</code>推出,用<code>C-z</code>暂停就好了</p>
+
+<p><em>复习</em>
+<code>C-x C-f</code> 寻找文件</p>
+
+<p><code>C-x C-s</code> 保存文件</p>
+
+<p><code>C-x C-b</code> 列出缓冲区</p>
+
+<p><code>C-x C-c</code> 推出Emacs</p>
+
+<p><code>C-x 1</code> 关掉其他窗格</p>
+
+<p><code>C-x u</code> 撤销</p>
+
+<p>命令扩展不常用或者只用在部分模式下</p>
+
+<p>输入<code>M-x</code> 再输入<code>replace-string</code>(<code>repl s TAB</code>补全)再按回车后如入被替换字符和替换字符.</p>
+
+<h4>自动保存(auto save)</h4>
+
+<p>Emacs会定期自动保存,文件名头尾会有"#",正常存盘后会被删掉.</p>
+
+<p>加入悲剧发生了,打开源文件(不是自动保存文件)输入<code>M-x recover file 回车</code>就可以恢复自动保存的文件了.</p>
+
+<h4>回显区(echo area)</h4>
+
+<p>如果输入多字符命令节奏很慢，Emacs会在窗格下方最下面一行的"回显区"给出提示</p>
+
+<h4>状态栏(mode line)</h4>
+
+<p>位于回显区上面一行</p>
+
+<p>小括号里的为当前的编辑模式,缺省为Fundamental模式,它是一种"主模式",任何情况下只能应用一个主模式</p>
+
+<p>Emacs的主模式很多 Lisp模式, Text模式.</p>
+
+<p><code>M-x fundamental-mode</code> 开启Fundamental模式</p>
+
+<p>主模式通常会有些小动作,很多命令完成相同工作,但是在不同环境下有不同的工作方式</p>
+
+<p><code>C-h m</code> 可以查看当前模式的文档</p>
+
+<p>除了主模式(major)外, 还有<em>辅模式(minor)</em>,辅模式不能替代主模式,但是可以增加一些辅助功能,每个辅模式可以单独开启和关闭,和其他辅模式无关.</p>
+
+<p><code>Auto Fill</code> 自动换行辅模式 <code>M-x auto fill mode</code>自动开启折行模式,再用这个命令关闭折行模式, 这种开关模式是"开关(toggle)"模式</p>
+
+<p>行边界通常设定为70个字符,可以使用<code>C-x f</code> 配合数字参数来重新设定.</p>
+
+<p><code>C-u 20 C-x f</code> 将行边界设定为20个字符,对英文字符有用,对中文字符无效</p>
+
+<p><code>M-q</code> 进行手动折行</p>
+
+<h4>搜索(searching)</h4>
+
+<p>Emacs的搜索是渐进的(incremental)</p>
+
+<p><code>C-s</code> 前向搜索 按<code>C-s</code>跳到下一个搜索结果</p>
+
+<p><code>C-r</code> 后向搜索 按<code>C-r</code>跳到上一个搜索结果  <code>C-g</code> 让光标回到搜索开始的位置,而按回车光标到搜索的结果上</p>
+
+<p>某些终端按<code>C-x C-s</code>会冻结屏幕,按<code>C-q</code> 可以解冻</p>
+
+<h4>多窗格(multiple window)</h4>
+
+<p><code>C-u N C-l</code> 貌似是使当前光标所在行移动到屏幕第N行</p>
+
+<p><code>C-x 1</code> 只保留当前窗格</p>
+
+<p><code>C-x 2</code> 水平开一个新的窗格, 窗格内的内容与当前窗格相同</p>
+
+<p><code>C-x 3</code> 垂直开一个新的窗格, 窗格内的内容与当前窗格相同</p>
+
+<p><code>C-M-v</code> 滚动下方的窗格, 但是貌似和evernote的热键重了,可以用<code>Esc C-v</code>来代替的,这个命令在多窗口时很有用的</p>
+
+<p><code>C-x o</code> 光标移动到另一窗格</p>
+
+<p><code>C-x 4 C-f 文件名</code> 可以在新的窗格里面打开文件</p>
+
+<h4>递归编辑(recursive editing levels)</h4>
+
+<p>模式名称外面有[]时就是进入了递归编辑,比如用<code>M-%</code>进行交互式替换的时候又进行了<code>C-s</code>进行搜索,这是替换模式没有结束,但是你又进入了搜索模式,就是所谓的递归编辑</p>
+
+<p>通过<code>Esc Esc Esc</code>可以离开递归编辑,这个命令可以用来关闭多于的窗格或者离开小缓冲区</p>
+
+<p>不能用<code>C-g</code>来取消递归编辑,因为这是取消"本层递归编辑之内"的命令和参数</p>
+
+<h4>转码</h4>
+
+<p><code>C-x 回车 r</code>(也可用<code>M-x revert-buffer-with-coding-system</code>) 再输入编码方式比如UTF-8或者Chinese-GB等来进行转码</p>
+
+<h4>特殊字符的输入</h4>
+
+<p><code>C-x 8 R</code> ® (utf-8)下无法显示?</p>
+
+<p><code>C-x 8 o</code> °</p>
+
+<p><code>C-x 8 C-h</code> 可以有一份完整的列表</p>
+
+<h4>获取更多的帮助(getting more help) 这个相当重要啊</h4>
+
+<p><code>C-h</code> 是帮助字符,所有查看命令文档的文档都是以这个字符开头的</p>
+
+<p><code>C-h ?</code> 帮助提供了那些帮助</p>
+
+<p><code>C-h c 组合键</code> Emacs给出该组合键的简要说明 例如<code>C-h c C-p</code> 给出了<code>C-p</code>的功能说明</p>
+
+<p><code>C-h k 组合键</code> 给出了详细说明</p>
+
+<p><code>C-h f 函数名</code> 给出函数的解释</p>
+
+<p><code>C-h v</code> 显示Emacs变量的文档. Emacs可以被用来"定制Emacs的行为"</p>
+
+<p><code>C-h a 关键词</code> 搜索相关的命令</p>
+
+<p><code>C-h i</code> 阅读联机手册(Info), <em>之后就靠Emacs Info了</em>, <code>C-h i ?</code>联机手册指导</p>
+
+<h4>更多精彩(more features)</h4>
+
+<p>Emacs使用手册 <code>F10 h r</code> 如 completion(自动补全), dired(目录编辑)</p>
+
+<h3>暂时结束,先使用,再学习高端技巧,还是需要先看tutorial啊.</h3>
+
+    </div>
+
+  
+    <ul class="tag_box inline">
+      <li><i class="icon-folder-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/categories.html#learning-ref">
+    		learning <span>1</span>
+    	</a></li>
+    
+  
+
+
+    </ul>
+    
+
+  
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/tags.html#emacs-ref">emacs <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#学习-ref">学习 <span>34</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/LCLSS/2012/12/05/chapter1_2-lclss" title="初始Linux shell和走进shell chapter1&2 LCLSS">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next"><a href="/Jekyll/2012/12/07/markdown-tutorial" title="markdown tutorial">Next &rarr;</a></li>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jekyllbootstrap'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+</div>
+
+      </div>
+      <hr>
+      <footer>
+        <p>&copy; 2013 dogeyes
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>
+        </p>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

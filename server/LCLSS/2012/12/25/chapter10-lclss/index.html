@@ -1,0 +1,443 @@
+<link href="/assets/themes/twitter/css/pygments.css" rel="stylesheet">
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>构建基本脚本 chapter10 LCLSS</title>
+    <meta name="description" content="">
+    <meta name="author" content="dogeyes">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/assets/themes/twitter/bootstrap/css/bootstrap.2.2.2.min.css" rel="stylesheet">
+    <link href="/assets/themes/twitter/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Le fav and touch icons -->
+  <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container-narrow">
+          <a class="brand" href="/">dogeyes</a>
+          <ul class="nav">
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/pages.html">Pages</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+
+
+
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-narrow">
+
+      <div class="content">
+        
+<div class="page-header">
+  <h1>构建基本脚本 chapter10 LCLSS </h1>
+</div>
+
+<div class="row-fluid post-full">
+  <div class="span12">
+    <div class="date">
+      <span>25 December 2012</strong>
+    </div>
+    <div class="content">
+      <h1>第10章构建基本脚本</h1>
+
+<h2>10.1 使用多个命令</h2>
+
+<p>两个命令一起运行,用<code>;</code>分隔</p>
+
+<p>但是每行不能超过255个字符</p>
+
+<h2>10.2 创建shell脚本文件</h2>
+
+<p>文件第一行指定要使用的shell</p>
+
+<pre><code>#!/bin/bash
+</code></pre>
+
+<p><code>#</code>用作注释行,shell中的注释行是不被shell执行的,然而第一行是一个特例,<code>#</code>后的<code>!</code>告诉shell用哪个shell来运行脚本</p>
+
+<p>要让shell找到脚本</p>
+
+<ul>
+<li>将shell脚本文件所处的目录添加到PATH环境变量中</li>
+<li>在提示符中用绝对或相对文件路径来引用文件</li>
+</ul>
+
+
+<p>还有权限问题,<code>chmod</code>给脚本增加可执行权限</p>
+
+<h2>10.3 显示消息</h2>
+
+<p><code>echo</code> 命令来显示消息</p>
+
+<p>一般不用用<code>'</code>或<code>"</code>圈起来,但是当字符串中有这个两个符号时,要用另一个把字符串圈起来</p>
+
+<p><code>-n</code> 参数使得下一行命令的输出紧接着字符串结束的地方</p>
+
+<h2>10.4 使用变量</h2>
+
+<h3>10.4.1 环境变量</h3>
+
+<p><code>set</code> 显示环境变量(局部和全局的)</p>
+
+<p>在环境变量名称之前加<code>$</code>来使用这些环境变量</p>
+
+<pre><code>echo UID: $UID
+
+echo "User info for userid: $USER"
+</code></pre>
+
+<p>在<code>"</code>内也可以使用,要显示<code>&amp;</code>符号使用<code>\</code>转义</p>
+
+<p>但是<code>'</code>内会照原样输出</p>
+
+<p>可以通过<code>${变量}</code>的方式来引用变量</p>
+
+<h3>10.4.2 用户变量</h3>
+
+<p>大小写敏感</p>
+
+<p>值通过等号来赋值给变量,变量,等号,值之间不出现空格.</p>
+
+<p>在脚本的整个生命周期力,shell脚本中定义的变量会一直保持他们的值,但是shell脚本完成时删除掉</p>
+
+<p>用<code>$</code>符号引用变量</p>
+
+<h3>10.4.3 反应号</h3>
+
+<p>shell脚本中最有用的就是<code>`</code></p>
+
+<p>反引号允许你将shell命令的输出赋值给变量</p>
+
+<pre><code>testing=`date`
+</code></pre>
+
+<p>一个典型的例子</p>
+
+<pre><code>today=`date +%y%m%d`
+
+ls /usr/bin -al &gt; log.$today
+</code></pre>
+
+<p>这样可以生成一个跟时间有关的变量名,这都是字符串连接吗</p>
+
+<h2>10.5 重定向输入和输出</h2>
+
+<h3>10.5.1 输出重定向</h3>
+
+<p><code>&gt;</code> 符号来完成标准输出的重定向</p>
+
+<p><code>command &gt; outputfile</code> command的输出会重定向到outputfile文件</p>
+
+<p><code>&gt;&gt;</code> 输出追加到文件,而不是覆盖</p>
+
+<h3>10.5.2 输入重定向</h3>
+
+<p><code>&lt;</code> 输入重定向</p>
+
+<p><code>command &lt; inputfile</code> inputfile内容流向command命令</p>
+
+<p><code>wc</code> 对数据文本的计数</p>
+
+<ul>
+<li>行数</li>
+<li>词数</li>
+<li>字节数</li>
+</ul>
+
+
+<p><code>&lt;&lt;</code>内联重定向,不是从文件而是从命令行得到输入</p>
+
+<pre><code>command &lt;&lt; marker
+data
+marker
+</code></pre>
+
+<p><code>marker</code>表示输入的开始和结束,可以任意选择,但是必须是一致的</p>
+
+<h2>10.6 管道</h2>
+
+<p>将某个命令的输出作为另一个命令的输入,重定向可以搞个中间文件</p>
+
+<p><code>管道连接(piping)</code> 会方便的多</p>
+
+<p><code>command1 | command2</code> command1的输出输入到command2</p>
+
+<pre><code>rpm -qa | sort | more
+</code></pre>
+
+<h2>10.7 执行数学运算</h2>
+
+<h3>10.7.1 expr命令</h3>
+
+<pre><code>`expr 1 + 5`
+</code></pre>
+
+<hr />
+
+<p>expr命令操作符</p>
+
+<hr />
+
+<p>但是类似<code>*</code>等符号在shell中有其他用途,要用<code>\</code>转义</p>
+
+<p>将数学算式的结果赋值给一个变量,要用<code>`</code>来获取expr 命令的输出</p>
+
+<h3>10.7.2 使用方括号</h3>
+
+<p><code>$[ operation]</code> 使用<code>$</code>和<code>[]</code>来引用表达式</p>
+
+<p>而且不用担心<code>*</code>等的误解</p>
+
+<p>但是bash shell的数学运算只支持整数运算</p>
+
+<pre><code>z shell支持完成的浮点数操作
+</code></pre>
+
+<h3>10.7.3 浮点解决方案</h3>
+
+<p>最常用的方法是使用bash内建计算器<code>bc</code></p>
+
+<h4>1. bc的基本用法</h4>
+
+<p>bc计算器能够识别</p>
+
+<ul>
+<li>数字(整数和浮点数)</li>
+<li>变量(简单变量和数组)</li>
+<li>注释(以井号开头或者<code>/* */</code> 对)</li>
+<li>表达式</li>
+<li>编程语言(如if-then)</li>
+<li>函数</li>
+</ul>
+
+
+<p>这就是一门语言</p>
+
+<p><code>scale</code>内建变量,设置浮点数的小数点位数</p>
+
+<p><code>print</code>可以打印</p>
+
+<h4>2. 在脚本中使用bc</h4>
+
+<pre><code>variable=`echo "options; expression" | bc`
+</code></pre>
+
+<p>通过<code>|</code>来传递参数,通过<code>`</code>来引用输出</p>
+
+<p>   var1=<code>echo " scale=4; 3.44/5" | bc</code></p>
+
+<p>用<code>;</code>来分隔输入的语句, 在语句中可以使用shell脚本的变量</p>
+
+<p>但是有很多语句时,同时列出这么多语句会比较复杂,可以使用重定向,但是要单独写一个表达式的文件</p>
+
+<p>最方便的是使用<code>内联重定向</code></p>
+
+<pre><code>variable=`bc &lt;&lt; EOF
+
+options
+
+statements
+
+expressions
+
+EOF
+`
+</code></pre>
+
+<p>不要忘了使用<code>`</code> 来引用命令的结果</p>
+
+<p>在语句块里面还可以使用变量,但是变量是存在于bc中的,一旦退出,变量不能在shell脚本中使用</p>
+
+<h2>10.8 退出脚本</h2>
+
+<p><code>退出状态码(exit status)</code>,0-225之间,告诉shell它完成了处理</p>
+
+<h3>10.8.1 查看退出状态码</h3>
+
+<p><code>$?</code> 来查看退出状态码,最后一条命令的退出状态码</p>
+
+<p><code>echo $?</code> 显示退出状态码</p>
+
+<h3>10.8.2 exit命令</h3>
+
+<p>默认情况下脚本会以最后一条命令的退出状态码退出</p>
+
+<p><code>exit</code> 来改变退出状态码 <code>exit 5</code></p>
+
+<p>可以在<code>exit</code>命令参数中使用变量,但是退出码的返回0-255,超过这个范围会取256的模</p>
+
+    </div>
+
+  
+    <ul class="tag_box inline">
+      <li><i class="icon-folder-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/categories.html#LCLSS-ref">
+    		LCLSS <span>23</span>
+    	</a></li>
+    
+  
+
+
+    </ul>
+    
+
+  
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/tags.html#linux-ref">linux <span>23</span></a></li>
+     
+    	<li><a href="/tags.html#command line-ref">command line <span>22</span></a></li>
+     
+    	<li><a href="/tags.html#学习-ref">学习 <span>34</span></a></li>
+     
+    	<li><a href="/tags.html#LCLSS-ref">LCLSS <span>23</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/LCLSS/2012/12/23/chapter8-lclss" title="安装软件程序 chapter8 LCLSS">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next"><a href="/LCLSS/2012/12/28/chapter11-lclss" title="使用结构化命令 chapter11 LCLSS">Next &rarr;</a></li>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jekyllbootstrap'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+</div>
+
+      </div>
+      <hr>
+      <footer>
+        <p>&copy; 2013 dogeyes
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>
+        </p>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

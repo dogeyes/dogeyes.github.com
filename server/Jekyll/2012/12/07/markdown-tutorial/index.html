@@ -1,0 +1,819 @@
+<link href="/assets/themes/twitter/css/pygments.css" rel="stylesheet">
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>markdown tutorial</title>
+    <meta name="description" content="">
+    <meta name="author" content="dogeyes">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/assets/themes/twitter/bootstrap/css/bootstrap.2.2.2.min.css" rel="stylesheet">
+    <link href="/assets/themes/twitter/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Le fav and touch icons -->
+  <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container-narrow">
+          <a class="brand" href="/">dogeyes</a>
+          <ul class="nav">
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/pages.html">Pages</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+
+
+
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-narrow">
+
+      <div class="content">
+        
+<div class="page-header">
+  <h1>markdown tutorial </h1>
+</div>
+
+<div class="row-fluid post-full">
+  <div class="span12">
+    <div class="date">
+      <span>07 December 2012</strong>
+    </div>
+    <div class="content">
+      <h2>markdown</h2>
+
+<h3>兼容HTML</h3>
+
+<p>可以在markdown文档中直接添加HTML标签</p>
+
+<p>要注意的是一些HTML区块元素,比如<code>&lt;div&gt;</code>,<code>&lt;table&gt;</code>,<code>&lt;pre&gt;</code>,<code>&lt;p&gt;</code>等标签,必须在前后加上空行与其他内容隔开,开始标签和结尾标签不能用制表符或空格来缩进</p>
+
+<p>例如,在markdown文件中加上一段HTML表格:</p>
+
+<pre><code>markdown文档
+
+&lt;table&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Foo&lt;/td&gt;
+        &lt;td&gt;Bar&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Tic&lt;/td&gt;
+        &lt;td&gt;Puu&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+
+markdown文档
+</code></pre>
+
+<p>效果如下</p>
+
+<p>markdown文档</p>
+
+<table>
+    <tr>
+        <td>Foo</td>
+        <td>Bar</td>
+    </tr>
+    <tr>
+        <td>Tic</td>
+        <td>Puu</td>
+    </tr>
+</table>
+
+
+<p>markdown文档</p>
+
+<p>在HTML区块标签中的markdown格式语法不会被处理,但是markdown区块中的HTML是有效的</p>
+
+<p>HTML的区段(行内)标签如<code>&lt;span&gt;</code>,<code>&lt;cite&gt;</code>,<code>&lt;del&gt;</code>可以在markdown的段落,列表或是标题内随意使用.依照个人习惯,甚至可以不用markdown格式,而直接使用HTML标签来格式化.比如可以使用HTML的<code>&lt;a&gt;</code>或者<code>&lt;img&gt;</code>标签.</p>
+
+<pre><code>&lt;del&gt;test del&lt;/del&gt;
+</code></pre>
+
+<p><del>test del</del></p>
+
+<hr />
+
+<h3>特殊字符的自动转换</h3>
+
+<p>在HTML中<code>&lt;</code>和<code>&amp;</code>要特殊处理. <code>&lt;</code>用于起始标签,<code>&amp;</code>用于标记HTML实体,如果只是想显示这些字符就要使用<code>&amp;lt;</code>和<code>&amp;amp;</code></p>
+
+<p>比如<code>AT&amp;T</code>要用<code>AT&amp;amp;T</code>,比较复杂的的如连接</p>
+
+<p><code>http://images.google.com/images?num=30&amp;q=larry+bird</code></p>
+
+<p>必须要转换成</p>
+
+<p><code>http://images.google.com/images?num=308&amp;amp;q=larry+bird</code></p>
+
+<p>才能放到链接标签<code>href</code>属性里,这样是很容易出错的</p>
+
+<p>markdown会自动转换,当<code>&amp;</code>是HTML字符实体的一部分时,它会保留原状,否则会被转换成<code>&amp;amp;</code></p>
+
+<p>若要在文档里输入©,则要</p>
+
+<pre><code>&amp;copy;
+</code></pre>
+
+<p>markdown保留<code>&amp;</code>符号,而</p>
+
+<pre><code>`AT&amp;T`
+</code></pre>
+
+<p>markdown会把它转换成:</p>
+
+<pre><code>`AT&amp;amp;T`
+</code></pre>
+
+<p>事实上是书写更自然了.</p>
+
+<p>类似的状况会发生在<code>&lt;</code>符号上,因为markdown兼容HTML,如果把<code>&lt;</code>符号作为HTML标签的界定符,那么markdown不会转换他,但如果是</p>
+
+<pre><code>4 &lt; 5
+</code></pre>
+
+<p>markdown会把它转换成</p>
+
+<pre><code>4 &amp;lt; 5
+</code></pre>
+
+<p>在code范围内,无论是行内还是区块内,<code>&lt;</code>和<code>&amp;</code>都会转换成HTML实体,这样在markdown内写HTML的代码尤为方便,因为在HTML代码内写HTML代码,需要把所有的<code>&lt;</code>和<code>&amp;</code>手动转换为HTML实体.</p>
+
+<hr />
+
+<h3>区块元素</h3>
+
+<h4>段落和换行</h4>
+
+<p>一个markdown段落是由一个或者多个连续的文本行组成的,前后要有一个以上的空行(空行是看起来是空的行,比如只包含空格和制表符,也被视为空行).普通的段落不应该用空格或者制表符来进行缩进(会形成code块的)</p>
+
+<p>markdown允许段落内的强迫换行(插入换行符),如果要以来markdown来插入<code>&lt;br /&gt;</code>标签的话,在插入处先输入两个以上的空格然后回车.</p>
+
+<pre><code>ab  &lt;return&gt;ab
+</code></pre>
+
+<p>ab<br/>
+ab</p>
+
+<p>而普通的</p>
+
+<pre><code>ab&lt;return&gt;ab
+</code></pre>
+
+<p>ab
+ab</p>
+
+<p>虽然换行比较麻烦,但是简单的将每个换行都转换成<code>&lt;br /&gt;</code>在markdown中并不合适,markdown中的email式的区块引用和多段落的列表在使用换行来排版的时候,不但更好用而且方便阅读.</p>
+
+<h4>标题</h4>
+
+<p>markdown支持两种标题语法,类Setext和类atx形式</p>
+
+<p>类Setext使用底线的形式,<code>=</code>(最高阶标题)和<code>-</code>(第二阶标题),任何数量的<code>=</code>和<code>-</code>都可以,例如</p>
+
+<pre><code>This is an H1
+=============
+
+This is an H2
+--------------
+</code></pre>
+
+<p>类Atx形式则是在行首插入1到6个<code>#</code>,对应1到6阶</p>
+
+<pre><code># 这是H1
+
+## 这是H2
+
+###### 这是H6
+</code></pre>
+
+<p>可以闭合类atx标题,只是为了美观</p>
+
+<pre><code># 这是H1 #
+
+## 这是 H2 #
+
+### 这是 H3 #
+</code></pre>
+
+<h4>区块的引用</h4>
+
+<p>markdown标记区块引用使用类似email中的<code>&gt;</code>引用方式,在每行前面加上<code>&gt;</code>:</p>
+
+<pre><code>&gt;这是一个区块引用.
+&gt;
+&gt;这是同一个区块引用.
+</code></pre>
+
+<blockquote><p>这是一个区块引用.</p>
+
+<p>这是同一个区块引用.</p></blockquote>
+
+<p>可以只在整个段落前面加上<code>&gt;</code>,而不必每行前面加<code>&gt;</code></p>
+
+<p>支持嵌套引用,根据层次加上不同数量的<code>&gt;</code>:</p>
+
+<pre><code>&gt;第一层引用
+&gt;
+&gt;&gt;第二层引用
+&gt;&gt;
+&gt;&gt;第二层引用
+&gt;
+&gt;第一层引用
+</code></pre>
+
+<blockquote><p>第一层引用</p>
+
+<blockquote><p>第二层引用</p>
+
+<p>第二层引用</p></blockquote>
+
+<p>第一层引用</p></blockquote>
+
+<p>引用区块内可以使用markdown语法,包括标题,列表,代码区块等</p>
+
+<pre><code>&gt;## 标题
+&gt;
+&gt;1. 表项1
+&gt;2. 表项2
+&gt;
+&gt;代码例子
+&gt;     return shell_exec("echo $input  | $markdown_script");
+</code></pre>
+
+<blockquote><h2>标题</h2>
+
+<ol>
+<li>表项1</li>
+<li>表项2</li>
+</ol>
+
+
+<p>代码例子</p>
+
+<pre><code>return shell_exec("echo $input  | $markdown_script");
+</code></pre></blockquote>
+
+<h4>列表</h4>
+
+<p>markdown支持有序列表和无序列表</p>
+
+<p>无序列表使用<code>*</code>,<code>+</code>或者<code>-</code>作为列表标记:</p>
+
+<pre><code>* Red
+* Green
+* Blue
+</code></pre>
+
+<ul>
+<li>Red</li>
+<li>Greed</li>
+<li>Blue</li>
+</ul>
+
+
+<p>有序列表用数字加英文句点</p>
+
+<pre><code>1. Bird
+2. McHale
+3. Parish
+</code></pre>
+
+<ol>
+<li>Bird</li>
+<li>McHale</li>
+<li>Parish</li>
+</ol>
+
+
+<p>重要的是有序列表前面的数字不影响实际生成的HTML</p>
+
+<pre><code>1. Bird
+2. McHale
+1. Parish
+</code></pre>
+
+<p>和前面生成的是一样的</p>
+
+<ol>
+<li>Bird</li>
+<li>McHale</li>
+<li>Parish</li>
+</ol>
+
+
+<p>列表标记通常放在最左边,但是其实可以缩进,最多3个空格,项目标记后面则一定要接至少一个空格或制表符(否则错误,显示非列表)</p>
+
+<p>如果列表项目间用空行分开,输出HTML时就会将项目内容用<code>&lt;p&gt;</code>标签包起来</p>
+
+<p>列表项目可以包含多个段落,但是每个项目下的段落都必须缩进4个空格或是一个制表符</p>
+
+<pre><code>1. 列表项目1
+
+   列表项目1的第二个段落
+
+2. 列表项目2
+</code></pre>
+
+<ol>
+<li><p>列表项目1</p>
+
+<p> 列表项目1的第二个段落</p></li>
+<li><p>列表项目2</p></li>
+</ol>
+
+
+<p>列表项目内放进引用<code>&gt;</code>要缩进</p>
+
+<pre><code>1. 含引用的列表项
+
+   &gt;引用
+</code></pre>
+
+<ol>
+<li><p>含引用的列表项</p>
+
+<blockquote><p>引用</p></blockquote></li>
+</ol>
+
+
+<p>如果要放代码的话就要缩进<em>两次</em>,也就是8个空格或者两个制表符</p>
+
+<pre><code>* 含有代码的列表
+
+    代码
+</code></pre>
+
+<ul>
+<li><p>含有代码的列表</p>
+
+<pre><code>  代码
+</code></pre></li>
+</ul>
+
+
+<p>列表中可能会有下面的内容,行首出现了<code>数字.空白</code>,这是要加反斜杠转义</p>
+
+<pre><code>1986. What a great season
+</code></pre>
+
+<ol>
+<li><ol>
+<li>. What a great season</li>
+</ol>
+</li>
+</ol>
+
+
+<p>要改成</p>
+
+<pre><code>1986\. What a great season
+</code></pre>
+
+<ol>
+<li>1986. What a great season</li>
+</ol>
+
+
+<h4>代码区块</h4>
+
+<p>代码一般都已经排好版了,因此希望照原来的样子去显现,markdown会用<code>&lt;pre&gt;</code>和<code>&lt;code&gt;</code>标签把代码区块包起来.</p>
+
+<p>代码区块在首部缩进4个空格或是1个制表符</p>
+
+<pre><code>普通段落
+
+    代码区块
+</code></pre>
+
+<p>普通段落</p>
+
+<pre><code>代码区块
+</code></pre>
+
+<p>markdown会转换成</p>
+
+<pre><code>&lt;p&gt;普通段落&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;代码区块
+&lt;/pre&gt;&lt;/code&gt;
+</code></pre>
+
+<p>每一阶的缩进(4个空格或者是1个制表符),都会被移除,例如:</p>
+
+<pre><code>code example
+
+    tell application "Foo"
+         beep
+    end tell
+</code></pre>
+
+<p>会被转化成</p>
+
+<pre><code>&lt;p&gt;code example&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;tell application "Foo"
+      beep
+end tell
+&lt;/code&gt;&lt;/pre&gt;
+</code></pre>
+
+<p>显示的时候是代码本身的缩进</p>
+
+<p>代码区块中的<code>&amp;</code>,<code>&lt;</code>和<code>&gt;</code>会被转化成HTML实体,这样插入代码只要在前面加上缩进就可以了</p>
+
+<h4>分隔线</h4>
+
+<p>下面的都可以建立分隔线</p>
+
+<pre><code>* * *
+
+***
+
+******
+
+_ _ _
+
+------------------
+</code></pre>
+
+<hr />
+
+<h3>区段元素</h3>
+
+<h4>链接</h4>
+
+<p>markdown支持两种形式的链接语法: 行内式和参考式.</p>
+
+<p>不管那一种都用[链接文字]来标记</p>
+
+<p><em>行内式</em>:方括号后面接圆括号并插入网址即可,网址后可加"Title"</p>
+
+<pre><code>这是[链接](http://google.com.cn/ "Google") 到google
+</code></pre>
+
+<p>会产生</p>
+
+<pre><code>&lt;p&gt;这是&lt;a href="http://google.com.cn/" title="Google"&gt;链接&lt;/a&gt; 到google&lt;/p&gt;
+</code></pre>
+
+<p>这是<a href="http://google.com.cn/" title="Google">链接</a>到google</p>
+
+<p>如果是链接到相同的主机资源,可以使用相对路径</p>
+
+<pre><code>See my [About](/about/) page for details.
+</code></pre>
+
+<p><em>参考式</em>:在链接文字的括号后面在接一个方括号,第二个方括号内填入用以表示链接的标记,两个方括号之间可以有一个空格:</p>
+
+<pre><code>这是[链接][id],参考式
+</code></pre>
+
+<p>接着在文件的任意处把标记的链接内容定义出来(这个貌似在同一个链接多吃使用的时候蛮有用的)</p>
+
+<pre><code>[id]: http://example.com/ "OptionalTitle Here"
+</code></pre>
+
+<p>链接内容的定义形式为:</p>
+
+<pre><code>[方括号]:空格 链接地址 "title"
+</code></pre>
+
+<p>链接表示符可以有字母,数字,空白,标点,但是不区分大小写</p>
+
+<p>隐式链接标记</p>
+
+<pre><code>[Google][]
+</code></pre>
+
+<p>等同于</p>
+
+<pre><code>[Google](http://google.com)
+</code></pre>
+
+<p>也可以</p>
+
+<pre><code>[a b][] 
+</code></pre>
+
+<p>接着在任意地方定义</p>
+
+<pre><code>[a b]: http://ab.com/
+</code></pre>
+
+<p><a href="http://ab.com/">a b</a></p>
+
+<h4>强调</h4>
+
+<p>markdown使用<code>*</code>和<code>_</code>作为标记强调的符号,被<code>*</code>或<code>_</code>包围的字词会被转成<code>&lt;em&gt;</code>标签包围,用两个<code>*</code>或者<code>_</code>包起来会被转成<code>&lt;string&gt;</code></p>
+
+<pre><code>*单星*
+
+_单下划线_
+
+**双星**
+
+__双下划线__
+</code></pre>
+
+<p><em>单星</em></p>
+
+<p><em>单下划线</em></p>
+
+<p><strong>双星</strong></p>
+
+<p><strong>双下划线</strong></p>
+
+<p>如果<code>*</code>或<code>_</code>两边都有空白的话,会被当成普通的符号</p>
+
+<p>要在文字前后插入<code>*</code>或者<code>_</code>,可以使用反斜杠转义</p>
+
+<pre><code>\*非重点\*
+</code></pre>
+
+<p>*非重点*</p>
+
+<h4>代码</h4>
+
+<p>段内代码可以用<code>`</code>来标记</p>
+
+<pre><code>使用`printf()`函数
+</code></pre>
+
+<p>使用<code>printf()</code>函数</p>
+
+<p>会产生</p>
+
+<pre><code>&lt;p&gt;使用&lt;code&gt;printf()&lt;/code&gt;函数&lt;/p&gt;
+</code></pre>
+
+<p>代码区段要插入<code>`</code>, 要用多个<code>`</code>号来开启和结束代码区段</p>
+
+<pre><code> ``这里有一个反引号(`)``
+</code></pre>
+
+<p>代码段起始和结束段都可以放入一个空白,这样可以在区段中插入反引号</p>
+
+<pre><code>代码段为单引号 `` ` ``
+
+代码段开始结束有单引号 `` `foo` ``
+</code></pre>
+
+<p><code>`</code></p>
+
+<p><code>`foo`</code></p>
+
+<h4>图片</h4>
+
+<p>markdown使用和链接相似的方法来插入图片,也分为<em>行内式</em>和<em>参考式</em>:</p>
+
+<p>行内式</p>
+
+<pre><code>![Alt text](/path/to/img.jpg)
+
+![Alt text](/path/to/img.jpg "Optional title")
+</code></pre>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/726f37bejw1dziwtsc6y7j.jpg" alt="头像" /></p>
+
+<p>参考式</p>
+
+<pre><code>![Alt text][id]
+
+[id]: url/to/image "Optional title attribute"
+</code></pre>
+
+<p>但是markdown无法指定图片宽高,如果要设定就得使用<code>&lt;img&gt;</code>标签</p>
+
+<pre><code>&lt;img src="/url/to/image" alt="Optional title" height="50" width="50" /&gt;
+</code></pre>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/726f37bejw1dziwtsc6y7j.jpg" alt="头像" height="50" width="50" /></p>
+
+<hr />
+
+<h3>其他</h3>
+
+<h4>自动链接</h4>
+
+<p>markdown支持以较短的自动链接的形式来处理网址和电子邮箱,只要用方括号包起来,markdown会自动把它转换为链接,网址的链接文字和链接地址一样</p>
+
+<pre><code>&lt;http://example.com/&gt;
+</code></pre>
+
+<p>会转化成</p>
+
+<pre><code>&lt;a href="http://example.com/"&gt;http://example.com&lt;/a&gt;
+</code></pre>
+
+<p>邮件地址链接也比较类似,只是markdown会先做一个编码转换的过程,把文字字符转换成16进制位码的HTML实体,这种格式可以糊弄一些不好的邮件手机机器人.</p>
+
+<pre><code>&lt;address@example.com&gt;
+</code></pre>
+
+<p>会转成</p>
+
+<pre><code>&lt;p&gt;&lt;a href="&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#116;&amp;#x6f;&amp;#58;&amp;#x61;&amp;#100;&amp;#100;&amp;#x72;&amp;#x65;&amp;#115;&amp;#115;&amp;#x40;&amp;#101;&amp;#120;&amp;#x61;&amp;#109;&amp;#x70;&amp;#x6c;&amp;#101;&amp;#x2e;&amp;#99;&amp;#x6f;&amp;#109;"&gt;&amp;#x61;&amp;#100;&amp;#x64;&amp;#114;&amp;#x65;&amp;#115;&amp;#115;&amp;#x40;&amp;#x65;&amp;#x78;&amp;#97;&amp;#109;&amp;#112;&amp;#108;&amp;#101;&amp;#46;&amp;#99;&amp;#111;&amp;#x6d;&lt;/a&gt;&lt;/p&gt;
+</code></pre>
+
+<h4>反斜杠</h4>
+
+<p>markdown可以用反斜杠来插入一些在语法中有其他意义的符号</p>
+
+<pre><code>\ 反斜杠
+
+` 反引号
+
+* 星号
+
+_ 底线
+
+{} 花括号
+
+[] 方括号
+
+() 括弧
+
+# 井号
+
++ 加号
+
+- 减号
+
+. 英文句点
+
+! 惊叹号
+</code></pre>
+
+    </div>
+
+  
+    <ul class="tag_box inline">
+      <li><i class="icon-folder-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/categories.html#Jekyll-ref">
+    		Jekyll <span>2</span>
+    	</a></li>
+    
+  
+
+
+    </ul>
+    
+
+  
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/tags.html#学习-ref">学习 <span>34</span></a></li>
+     
+    	<li><a href="/tags.html#markdown-ref">markdown <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#Jekyll-ref">Jekyll <span>2</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/learning/2012/12/05/learning-emacs" title="learning emacs">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next"><a href="/LCLSS/2012/12/12/chapter3-lclss" title="基本的bash shell命令 chapter3 LCLSS">Next &rarr;</a></li>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jekyllbootstrap'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+</div>
+
+      </div>
+      <hr>
+      <footer>
+        <p>&copy; 2013 dogeyes
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>
+        </p>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+

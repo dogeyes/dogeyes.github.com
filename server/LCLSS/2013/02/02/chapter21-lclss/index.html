@@ -1,0 +1,755 @@
+<link href="/assets/themes/twitter/css/pygments.css" rel="stylesheet">
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>gawk进阶 chapter21 LCLSS</title>
+    <meta name="description" content="">
+    <meta name="author" content="dogeyes">
+
+    <!-- Enable responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/assets/themes/twitter/bootstrap/css/bootstrap.2.2.2.min.css" rel="stylesheet">
+    <link href="/assets/themes/twitter/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Le fav and touch icons -->
+  <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Sitewide RSS Feed">
+
+  </head>
+
+  <body>
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container-narrow">
+          <a class="brand" href="/">dogeyes</a>
+          <ul class="nav">
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/pages.html">Pages</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+
+
+
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-narrow">
+
+      <div class="content">
+        
+<div class="page-header">
+  <h1>gawk进阶 chapter21 LCLSS </h1>
+</div>
+
+<div class="row-fluid post-full">
+  <div class="span12">
+    <div class="date">
+      <span>02 February 2013</strong>
+    </div>
+    <div class="content">
+      <h1>第21章 gawk进阶</h1>
+
+<h2>21.1 使用变量</h2>
+
+<ul>
+<li>内建变量</li>
+<li>自定义变量</li>
+</ul>
+
+
+<h3>21.1.1 内建变量</h3>
+
+<h4>1. 字段和数据行分隔符变量</h4>
+
+<p>数据字段变量, $1代表第一个,$2代表第二个…, $0代表整行</p>
+
+<p>字段由字段分隔符划定,默认是空白字符,通过-F选项或者FS变量来更改</p>
+
+<p>gawk数据字段和数据行变量</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>变量     </th>
+<th>描述    </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>FIELDIDTHS</td>
+<td>由空格分隔开的定义了灭个数据字段确切宽度的一列数字|</td>
+</tr>
+<tr>
+<td></td>
+<td>FS      </td>
+<td>输入字段分隔符|</td>
+</tr>
+<tr>
+<td></td>
+<td>RS      </td>
+<td>输入数据行分隔符|</td>
+</tr>
+<tr>
+<td></td>
+<td>OFS     </td>
+<td>输出字段分隔符  |</td>
+</tr>
+<tr>
+<td></td>
+<td>ORS     </td>
+<td>输出数据行分隔符|</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>OFS默认是一个空格</p>
+
+<p>print命令会自动将OFS变量的值放置在输出的每个字段间</p>
+
+<pre><code>gawk 'BEGIN{FS=","; OFS="-"} {print $1,$2,$3}' data1
+</code></pre>
+
+<p>FIELDWIDTHS变量,不用字段分隔符来划分字段</p>
+
+<pre><code>#data1b
+1005.3247596.37
+115-2.349194.00
+05810.1298100.1
+
+gawk 'BEGIN{FIELDWIDTHS="3 5 2 5"} {print $1,$2,$3,$4}' data1b
+
+FIELDWIDTHS一旦设定,就不能改变,这种方法不适合边长字段
+</code></pre>
+
+<p>RS和ORS定了如何处理数据流中的数据行,默认情况下,RS和ORS设为换行符</p>
+
+<p>有时数据项按行分隔, 而数据组之间有空行分隔,这时把FS设为换行符,RS设为空字符串</p>
+
+<h4>2. 数据变量</h4>
+
+<hr />
+
+<p>更多gawk内建变量</p>
+
+<hr />
+
+<pre><code>gawk 'BEGIN{print ARGC.ARBV[1]}' data1
+&gt;data1
+</code></pre>
+
+<p>ARGC变量表明命令行上有两个参数,gawk和data1参数,程序脚本并不算参数,ARGV数组从代表该命令的索引0开始</p>
+
+<p>gawk变量中,变量名前不加美元符号</p>
+
+<pre><code>gawk '
+BEGIN{
+print ENVIRON["HOME"]
+print ENVIRON["PATH"]
+}'
+
+gawk 'BEGIN{
+FS=":"
+OFS=":"}
+{ print $1,$NF}' /etc/passwd
+</code></pre>
+
+<p><code>NF</code>是最后一个数据字段的数字值,通过<code>$NF</code>来引用最后一个字段</p>
+
+<p><code>NR</code>是处理过的所有数据行总数</p>
+
+<p><code>FNR</code>是当前数据文件处理过的总的数据行总数</p>
+
+<pre><code>#在同时处理多个文件的时候会有差别
+gawk 'BEGIN{FS=","}{print $1, "FNR"=FNR, "NR"=NR}' data1 data1
+
+data11 FNR=1 NR=1
+data21 FNR=2 NR=2
+data31 FNR=3 NR=3
+data11 FNR=1 NR=4
+data21 FNR=2 NR=5
+data31 FNR=3 NR=6
+</code></pre>
+
+<h3>21.1.2 自定义变量</h3>
+
+<h4>1. 在脚本中给变量赋值</h4>
+
+<pre><code>gawk 'BEGIN{x=4; x=x * 2 + 3; print x}'
+</code></pre>
+
+<h4>2. 在命令行上给变量赋值</h4>
+
+<pre><code>#script1
+BEGIN{FS=","}
+{print $n}
+
+gawk -f script1 n=2 data1
+
+gawk -f script2 n=3 data1
+</code></pre>
+
+<p>但是这个值在BEGIN部分不可用</p>
+
+<pre><code>#script2
+BEGIN{print "The starting value is",n; FS=","}
+{print $n}
+
+gawk -f script2 n=3 data1
+#第一行The starting value is#没有输出n
+</code></pre>
+
+<p>通过<code>-v</code>选项来解决这个问题</p>
+
+<pre><code>gawk -v n=3 -f script2 data1
+</code></pre>
+
+<h2>21.2 处理数组</h2>
+
+<p>关联数组</p>
+
+<h3>21.2.1 定义数组变量</h3>
+
+<pre><code>var[index]=element
+
+gawk 'BEGIN{
+capital["Illinois"] = "Springfield"
+print capital["Illinois"]
+}'
+</code></pre>
+
+<h3>21.2.2 遍历数组变量</h3>
+
+<pre><code>for (var in array)
+{
+  statements
+}
+</code></pre>
+
+<p>var是遍历索引而不是值</p>
+
+<pre><code>gawk 'BEGIN{
+var["a"]=1
+var["g"]=2
+var["m"]=3
+var["u"]=4
+for(test in var)
+{
+  print "Index:",test," - Value:", var[test]
+}
+}'
+</code></pre>
+
+<p>返回的索引值不是按顺序的</p>
+
+<h3>21.2.2 删除数组变量</h3>
+
+<pre><code>delete array[index]
+</code></pre>
+
+<h2>21.3 使用模式</h2>
+
+<h3>21.3.1 正则表达式</h3>
+
+<p>基本正则表达式(BRE) 扩展正则表达式(ERE)</p>
+
+<pre><code>gawk 'BEGIN{FS=","} /11/{print $1}' data1
+</code></pre>
+
+<p>正则表达式会对数据中的所有数据字段进行匹配,包括分隔符</p>
+
+<h3>21.3.2 匹配操作符</h3>
+
+<p><code>~</code>匹配操作符(matching operator)允许将正则表达式限定在数据行中的特性数据字段</p>
+
+<pre><code>$1 ~ /^data/
+
+gawk 'BEGIN{FS=","} $2 ~ /^data2/{print $0}' data1
+
+gawk -F: '$1 ~ /rich/{print $1,$NF}' /etc/passwd
+</code></pre>
+
+<p>可以使用排除</p>
+
+<pre><code>gawk -F: '$! !~ /rich/{print $1,$NF}' /etc/passwd
+
+#输出不匹配的行
+</code></pre>
+
+<h3>21.3.3 数学表达式</h3>
+
+<p>可以在匹配模式中使用数学表达式</p>
+
+<pre><code>gawk -F: '$4 == 0{print $1}' /etc/passwd
+#PID==0的行
+</code></pre>
+
+<ul>
+<li>x == y</li>
+<li>x &lt;= y</li>
+<li>x >= y</li>
+<li>x &lt; y</li>
+<li>x > y</li>
+</ul>
+
+
+<p>也可对文本数据使用表达式,但是要完全相同才算匹配</p>
+
+<h2>21.4 结构化命令</h2>
+
+<h3>21.4.1 if语句</h3>
+
+<pre><code>if(condition)
+    statement1
+
+if(condition) statement1
+</code></pre>
+
+<p>例子</p>
+
+<pre><code>#data4
+10
+5
+13
+50
+34
+gawk '{if ($1 &gt; 20) print $1}' data4
+50
+34
+
+gawk '{
+if($1 &gt;  20)
+{
+  x = $1 * 2;
+  print x
+} #多条语句用{}
+}' data4
+</code></pre>
+
+<p>也可以加else语句</p>
+
+<pre><code>gawk '{
+if($1 &gt; 20)
+{
+  x = $1 * 2
+  print x
+}else
+{
+  x = $1 / 2
+  print x
+}}' data4
+</code></pre>
+
+<p>单行</p>
+
+<pre><code>if(condition) statement1; else statement2
+</code></pre>
+
+<h3>21.4.2 while语句</h3>
+
+<pre><code>while (condition)
+{
+  statement
+}
+
+#data5
+130 120 135
+160 113 140
+145 170 215
+
+gawk '{
+total=0
+i=1
+while (i &lt; 4)
+{
+  total+= $i
+  i++
+}
+avg = total / 3
+print "Average: ",avg
+}' data5
+#求每行平均
+</code></pre>
+
+<p>支持在while中使用continue和break</p>
+
+<h3>21.4.3 do-while 语句</h3>
+
+<pre><code>do
+{
+    statements
+}while(condition)
+</code></pre>
+
+<h3>21.4.4 for语句</h3>
+
+<pre><code>for(variable assignment; condition; iteration process)
+</code></pre>
+
+<h2>21.5 格式化打印</h2>
+
+<p><code>printf</code> 命令</p>
+
+<pre><code> printf "fomat string", var1, var2, …
+</code></pre>
+
+<p>格式化指定符采用如下格式:</p>
+
+<pre><code>%[modifier]control-letter
+</code></pre>
+
+<p>control-letter(控制字符),和c中的printf相似</p>
+
+<p>modifier(修饰符),和c中也类似</p>
+
+<h2>21.6 内建函数</h2>
+
+<h3>21.6.1 数学函数</h3>
+
+<ul>
+<li>atan2(x,y)</li>
+<li>cos(x)</li>
+<li>exp(x)</li>
+<li>int(x)</li>
+<li>log(x)</li>
+<li>rand()</li>
+<li>sin(x)</li>
+<li>sqrt(x)</li>
+<li><p>srand(x)</p></li>
+<li><p>and(v1, v2) 按位与</p></li>
+<li>compl(val)  补运算</li>
+<li>lshift(val, count) 左移</li>
+<li>rshift(val, count) 右移</li>
+<li>or(v1, v2)  按位或</li>
+<li>xor(v1, v2) 按位抑或</li>
+</ul>
+
+
+<h3>21.6.2 字符串函数</h3>
+
+<p>gawk字符串函数</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>函数      </th>
+<th>描述              </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>asort(s [, d])</td>
+<td>将数组s按数据元素排序,索引值会被替换成表示新的排序顺序的连续数字,另外,如果指定了d,则排序后的数组会存储在数组d中|</td>
+</tr>
+<tr>
+<td></td>
+<td>asorti(s [, d])</td>
+<td>将数组s按索引值排序,生成的数组会将索引值作为数据元素值,用连续数字索引来表名排序顺序,另外如果指定了d,排序后的数组会存储在数组d中|</td>
+</tr>
+<tr>
+<td></td>
+<td>gensub(r, s, h [, t])</td>
+<td>查找变量$0或目标字符串t(如果提供了的话)来匹配正则表达式r,如果h是以一个g或G开头的字符串,就用s替换掉匹配的文本,如果h是一个数字,它表示要替换掉第几处r匹配的地方|</td>
+</tr>
+<tr>
+<td></td>
+<td>gsub(r, s [, t])</td>
+<td> 查找变量$0或目标字符串t(如果提供了的话)来匹配正则表达式r,如果找到了就全部替换成s|</td>
+</tr>
+<tr>
+<td></td>
+<td>index(s, t)</td>
+<td> 返回t在s中的索引,如果没有找到就返回0|</td>
+</tr>
+<tr>
+<td></td>
+<td>length([s])</td>
+<td> 返回s的长度,如果没有指定就放回$0的字符串|</td>
+</tr>
+<tr>
+<td></td>
+<td>match(s, r [, a])</td>
+<td>返回字符串s中正则表达式r出现位置的索引,如果指定了数组a,它会存储s中匹配正则表达式的那部分|</td>
+</tr>
+<tr>
+<td></td>
+<td>split(s, a[ ,r])</td>
+<td>将s用FS字符或正则表达式r(如果指定了的话)分开放到数组a中,返回字段的总数|</td>
+</tr>
+<tr>
+<td></td>
+<td>sprintf(format, variable)</td>
+<td>用format和variables返回一个类似于printf输出的字符串|</td>
+</tr>
+<tr>
+<td></td>
+<td>sub(r, s [, t])</td>
+<td>在变量$0或目标字符串t中查找正则表达式r和匹配,如果找到了,就用字符串s替换掉第一处匹配|</td>
+</tr>
+<tr>
+<td></td>
+<td>substr(s, i [, n])</td>
+<td>返回s中从索引值i开始的n个字符串, 如果未提供n,则返回s的剩余部分|</td>
+</tr>
+<tr>
+<td></td>
+<td>tolower(s)</td>
+<td>将s中的所有字符换成小写|</td>
+</tr>
+<tr>
+<td></td>
+<td>toupper(s)</td>
+<td>将s中的所有字符换成大写|</td>
+</tr>
+</tbody>
+</table>
+
+
+<h3>21.6.3 时间函数</h3>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>函数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>mktime(datespec)</td>
+<td>将一个按YYYY MM DD HH MM SS[DST]格式指定的日期转换为时间戳值|</td>
+</tr>
+<tr>
+<td></td>
+<td>strftime(format [, timestamp])</td>
+<td>将当前时间的时间戳或timestamp(如果提供了的话)转化成shell函数格式date()的格式化日期|</td>
+</tr>
+<tr>
+<td></td>
+<td>systime()</td>
+<td>返回当前时间的时间戳|</td>
+</tr>
+</tbody>
+</table>
+
+
+<h2>21.7 自定义函数</h2>
+
+<h3>21.7.1 定义函数</h3>
+
+<pre><code>function name([variable])
+{
+    statements
+}
+</code></pre>
+
+<p>可以在函数中使用外部变量,如$1,$2等字段值</p>
+
+<h3>21.7.2 使用自定义函数</h3>
+
+<p>定义函数必须出现在所有代码块之前(包括BEGIN代码块)</p>
+
+<pre><code>gawk '
+function myprint()
+{
+    printf "%-16s - %s\n", $1, $4
+}
+BEGIN{FS="\n"; RS=""}
+{
+    myprint()
+}' data2
+</code></pre>
+
+<h3>21.7.3 创建函数库</h3>
+
+<pre><code>#funclib
+gawk '
+function myprint()
+{
+    printf "%-16s - %s\n", $1, $4
+} 
+function myrand(limit)
+{
+    return int(limit * rand())
+}
+function printthird()
+{
+    print $3
+}
+
+gawk -f funclib -f script4 data2
+#多个-f选项指定多个文件
+</code></pre>
+
+    </div>
+
+  
+    <ul class="tag_box inline">
+      <li><i class="icon-folder-open"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/categories.html#LCLSS-ref">
+    		LCLSS <span>23</span>
+    	</a></li>
+    
+  
+
+
+    </ul>
+    
+
+  
+    <ul class="tag_box inline">
+      <li><i class="icon-tags"></i></li>
+      
+      
+
+
+  
+     
+    	<li><a href="/tags.html#LCLSS-ref">LCLSS <span>23</span></a></li>
+     
+    	<li><a href="/tags.html#linux-ref">linux <span>23</span></a></li>
+     
+    	<li><a href="/tags.html#学习-ref">学习 <span>34</span></a></li>
+     
+    	<li><a href="/tags.html#command line-ref">command line <span>22</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/LCLSS/2013/01/31/chapter20-lclss" title="sed进阶 chapter20 LCLSS">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next"><a href="/LCLSS/2013/02/03/chapter22-lclss" title="使用其他shell chapter22 LCLSS">Next &rarr;</a></li>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jekyllbootstrap'; // required: replace example with your forum shortname
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+</div>
+
+      </div>
+      <hr>
+      <footer>
+        <p>&copy; 2013 dogeyes
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>
+        </p>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
+
