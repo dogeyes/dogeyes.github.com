@@ -152,7 +152,7 @@ class Song
 end
 song = Song.new("Bicylops", "Fleck", 260)
 song.duration = 257
-{% endhighlihgt %}
+{% endhighlight %}
 
 ### Virtual Attributes
 
