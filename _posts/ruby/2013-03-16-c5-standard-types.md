@@ -299,3 +299,85 @@ show_regexp("He said 'Hello'", /(["']).*?\1/) -> He said <<'Hello'>>
 
 ### Pattern-Based Substitution
 
+The methods `String#sub` and `String#gsub` look for a portion of a string matching their first argument and replace it with their second argument. 
+
+Mutator versions `String#sub!` and `String#gsub!` modify the original string.
+
+{% highlight ruby %}
+a = "the quick brown fox"
+a.sub(/[aeiou]/, '*')   ->  "th* quick brown fox"
+a.gsub(/[aeiou]/, '*')  -> "th* q**ck br*wn f*x"
+{% endhighlight %}
+
+The second argument to both functions can be either a String or a block. If a block is used, it is passed the matching substring, and the block’s value is substituted into the original string.
+
+{% highlight ruby %}
+a = "the quick brown fox"
+a.sub(/^./) {|match| match.upcase } -> "The quick brown fox"
+a.gsub(/[aeiou]/) {|vowel| vowel.upcase } -> "thE qUIck brOwn fOx"
+{% endhighlight %}
+
+{% highlight ruby %}
+def mixed_case(name)
+  name.gsub(/\b\w/) {|first| first.upcase }
+end
+
+mixed_case("fats waller")  -> "Fats Waller"
+mixed_case("louis armstrong") -> "Louis Armstrong"
+{% endhighlight %}
+
+### Backslash Sequences in the Substitution
+
+{% highlight ruby %}
+"fred:smith".sub(/(\w+):(\w+)/, '\2, \1') → "smith, fred"
+"nercpyitno".gsub(/(.)(.)/, '\2\1') → "encryption"
+{% endhighlight %}
+
+* `\&`  last match
+* `\+`  last matched group
+* `` \` ``  string prior to match
+* `\'`  string after match
+* `\\`  literal backslash
+
+{% highlight ruby %}
+ str.gsub(/\\/, '\\\\')  # result is \\
+ str.gsub(/\\/, '\\\\\\\\') # result is \\\\
+ 
+str = 'a\b\c'
+str.gsub(/\\/, '\\\\\\\\')
+str.gsub(/\\/, '\&\&')
+str.gsub(/\\/) { '\\\\' }
+{% endhighlight %}
+
+### Object-Oriented Regular Expressions
+
+{% highlight ruby %}
+re = /cat/re.class → Regexp
+{% endhighlight %}
+
+`Regexp#match`
+
+{% highlight ruby %}
+re = /(\d+):(\d+)/ # match a time hh:mm
+md = re.match("Time: 12:34am")
+md.class  ->  MatchData
+md[0]  # == $&  -> "12:34"
+md[1]  # == $1  -> "12"
+md[2]  # == $2  -> "34"
+md.pre_match # == $` -> "Time:"
+md.post_match # == $' -> "am"
+{% endhighlight %}
+
+`$-`
+
+{% highlight ruby %}
+re = /(\d+):(\d+)/ # match a time hh:mm md1 = re.match("Time: 12:34am")md2 = re.match("Time: 10:30pm")md1[1, 2] → ["12", "34"]md2[1, 2] → ["10", "30"]
+{% endhighlight %}
+
+`$~` stores a reference to the result(nil or MatchData object)
+
+{% highlight ruby %}
+re = /(\d+):(\d+)/md1 = re.match("Time: 12:34am")md2 = re.match("Time: 10:30pm")[ $1, $2 ] -> ["10", "30"]
+ # last successful match$~ = md1[ $1, $2 ] -> ["12", "34"]
+ # previous successful match
+{% endhighlight %}
