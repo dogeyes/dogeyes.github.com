@@ -135,3 +135,41 @@ end
 
 `Kernel.raise`
 
+{% highlight ruby %}
+raise   #reraises the current exception (or RuntimeError)raise "bad mp3 encoding" # RuntimeError, setting its message to the given stringraise InterfaceException, "Keyboard failure", caller 
+ #he first argument to create an exception and then sets the associated message to the second argument and the stack trace to the third argument. 
+{% endhighlight %}
+
+{% highlight ruby %}
+raiseraise "Missing name" if name.nil?if i >= names.size  raise IndexError, "#{i} >= size (#{names.size})"endraise ArgumentError, "Name too big", callerraise ArgumentError, "Name too big", caller[1..-1]
+{% endhighlight %}
+
+### Adding Information to Exceptions
+
+{% highlight ruby %}
+class RetryException < RuntimeError  attr :ok_to_retry  def initialize(ok_to_retry)    @ok_to_retry = ok_to_retry  endend
+def read_data(socket)  data = socket.read(512)  if data.nil?    raise RetryException.new(true), "transient read error"
+  end  # .. normal processingend
+begin  stuff = read_data(socket)    # .. process stuff  rescue RetryException => detail
+    retry if detail.ok_to_retry
+  raiseend
+{% endhighlight %}
+
+## Catch and Throw
+
+While the exception mechanism of raise and rescue is great for abandoning execution when things go wrong, it’s sometimes nice to be able to jump out of some deeply nested construct during normal processing. This is where `catch` and `throw` come in handy.
+
+{% highlight ruby %}
+catch (:done)  do  while line = gets    throw :done unless fields = line.split(/\t/)    songlist.add(Song.new(*fields))  end  songlist.playend
+{% endhighlight %}
+
+catch defines a block that is labeled with the given name,The block is executed normally until a throw is encountered. When Ruby encounters a throw, it zips back up the call stack looking for a catch block with a matching symbol. When it finds it, Ruby unwinds the stack to that point and terminates the block.
+
+{% highlight ruby %}
+def prompt_and_get(prompt)  print prompt  res = readline.chomp  throw :quit_requested if res == "!"
+  resendcatch :quit_requested do  name = prompt_and_get("Name: ")  age = prompt_and_get("Age: ")
+  sex = prompt_and_get("Sex: ")
+  # ..  # process informationend
+{% endhighlight %}
+
+the throw does not have to appear within the static scope of the catch.
