@@ -232,6 +232,381 @@ words[key] = words[key] || []
 
 ## If and Unless Expressions
 
+{% highlight ruby%}
+if song.artist == "Gillespie" then
+  handle = "Dizzy"
+elsif song.artist == "Parker" then  # elsif
+  handle = "Bird"
+else
+  handle = "unknown"
+end
+{% endhighlight %}
+
+{% highlight ruby%}
+if song.artist == "Gillespie"
+  handle = "Dizzy"
+elsif song.artist == "Parker"
+  handle = "Bird"
+else
+  handle = "unknown"
+end
+{% endhighlight %}
+
+{% highlight ruby%}
+if song.artist == "Gillespie" then  handle = "Dizzy"
+elsif song.artist == "Parker" then  handle = "Bird"
+else  handle = "unknown"
+end
+{% endhighlight %}
+
+{% highlight ruby%}
+if song.artist == "Gillespie" :  handle = "Dizzy"
+elsif song.artist == "Parker" :  handle = "Bird"
+else  handle = "unknown"
+end
+{% endhighlight %}
+
+if is anexpression,nota statement—itreturnsa value.
+
+{% highlight ruby %}
+handle = if song.artist == "Gillespie" then
+           "Dizzy"
+         elsif song.artist == "Parker" then
+           "Bird"
+         else
+           "unknown"
+         end
+{% endhighlight %}
+
+Ruby also has a negated form of the if statement.
+
+{% highlight ruby %}
+unless song.duration > 180
+  cost = 0.25
+else
+  cost = 0.35
+end
+{% endhighlight %}
+
+{% highlight ruby %}
+cost = song.duration > 180 ? 0.35 : 0.25
+{% endhighlight %}
+
+### If and Unless Modifiers
+
+{% highlight ruby %}
+mon, day, year = $1, $2, $3 if date =~ /(\d\d)-(\d\d)-(\d\d)/
+puts "a = #{a}" if debug
+print total unless total.zero?
+{% endhighlight %}
+
+For an if modifier, the preceding expression will be evaluated only if the condition is
+true. unless works the other way around.
+
+{% highlight ruby %}
+File.foreach("/etc/fstab") do |line|
+  next if line =~ /^#/              # Skip comments
+  parse(line) unless line =~ /^$/   # Don't parse empty lines
+end
+{% endhighlight %}
+
+## Case Expressions
+
+{% highlight ruby %}
+leap = case
+       when year % 400 == 0 then true
+       when year % 100 == 0 then false
+       else year % 4 == 0
+       end
+# ruby 1.9 not support :?
+{% endhighlight %}
+
+{% highlight ruby %}
+leap = case
+       when year % 400 == 0: true
+       when year % 100 == 0: false
+       else year % 4 == 0
+       end
+# ruby 1.9 not support :?
+{% endhighlight %}
+
+{% highlight ruby %}
+case input_line
+when "debug"
+  dump_debug_info
+  dump_symbols
+when /p\s+(\w+)/
+  dump_variable($1)
+when "quit", "exit"
+  exit
+else
+  print "Illegal command: #{input_line}"
+end
+{% endhighlight %}
+
+{% highlight ruby %}
+kind = case year
+       when 1850..1889 then "Blues"
+       when 1890..1909 then "Ragtime"
+       when 1910..1929 then "New Orleans Jazz"
+       when 1930..1939 then "Swing"
+       when 1940..1950 then "Bebop"
+       else "Jazz"
+       end
+{% endhighlight %}
+
+{% highlight ruby %}
+kind = case year
+       when 1850..1889: "Blues"
+       when 1890..1909: "Ragtime"
+       when 1910..1929: "New Orleans Jazz"
+       when 1930..1939: "Swing"
+       when 1940..1950: "Bebop"
+       else
+       "Jazz"
+       end
+{% endhighlight %}
+
+This test is done using `comparison === target`.
+
+regular expressions define === as a simple pattern match
+
+Ruby classes are instances of class Class, which defines === to test if the argument is an instance of the class or one of its superclasses.
+
+{% highlight ruby %}
+case shape
+when Square, Rectangle
+  # ...
+when Circle
+  # ...
+when Triangle
+  # ...
+else
+  # ...
+end
+{% endhighlight %}
+
+## Loops
+
+{% highlight ruby %}
+while line = gets
+  # ...
+end
+{% endhighlight %}
+
+{% highlight ruby %}
+until play_list.duration > 60
+  play_list.add(song_list.pop)
+end
+{% endhighlight %}
+
+{% highlight ruby %}
+a = 1
+a *= 2
+while a < 100
+a -= 10 until a < 100
+a 98
+{% endhighlight %}
+
+{%  highlight ruby %}
+file = File.open("ordinal")
+while line = file.gets
+  puts(line) if line =~ /third/ .. line =~ /fifth/
+end
+{% endhighlight %}
+
+` $.` contains the current input line number
+
+{% highlight ruby %}
+File.foreach("ordinal") do |line|
+  if (($. == 1) || line =~ /eig/) .. (($. == 3) || line =~ /nin/)
+    print line
+  end
+end
+{% endhighlight %}
 
 
+
+{% highlight ruby %}
+print "Hello\n" while false # print nothing
+#execute at least one time
+begin
+  print "Goodbye\n"
+end while false
+{% endhighlight %}
+
+## Iterators
+
+{% highlight ruby %}
+3.times do
+  print "Ho! "
+end
+{% endhighlight %}
+
+{% highlight ruby %}
+0.upto(9) do |x|
+  print x, " "
+end
+
+0.step(12, 3) {|x| print x, " " }
+
+[ 1, 1, 2, 3, 5 ].each {|val| print val, " " }
+{% endhighlight %}
+
+And once a class supports each, the additional methods in the Enumerable module become available.
+
+{% highlight ruby %}
+File.open("ordinal").grep(/d$/) do |line|
+  puts line
+end
+{% endhighlight %}
+
+{% highlight ruby %}
+loop do
+  # block
+end
+# loop forerver
+{% endhighlight %}
+
+### For.. In
+
+{% highlight ruby %}
+for song in songlist
+  song.play
+end
+
+# the same as
+
+songlist.each do |song|
+  song.play
+end
+
+#The only difference between the for loop and the each form is the scope of local variables that are defined in the body.
+{% endhighlight %}
+
+{% highlight ruby %}
+for i in ['fee', 'fi', 'fo', 'fum']
+  print i, " "
+end
+for i in 1..3
+  print i, " "
+end
+for i in File.open("ordinal").find_all {|line| line =~ /d$/}
+  print i.chomp, " "
+end
+{% endhighlight %}
+
+As long as your class defines a sensible each method,you can use a for loop to traverse its objects.
+
+{% highlight ruby %}
+class Periods
+  def each
+    yield "Classical"
+    yield "Jazz"
+    yield "Rock"
+  end
+end
+periods = Periods.new
+for genre in periods
+  print genre, " "
+end
+{% endhighlight %}
+
+### Break, Redo, and Next
+
+**break** terminates the immediately enclosing loop
+
+**redo** repeats the loop from the start, but without reevaluating the conditionor fetchingthe next element
+
+**next** skips to the endof the loop, effectively starting the next iteration.
+
+{% highlight ruby %}
+while line = gets
+  next if line =~ /^\s*#/ # skip comments
+  break if line =~ /ÊND/ # stop at end
+  # substitute stuff in backticks and try again
+  redo if line.gsub!(/`(.*?)`/) { eval($1) }
+  # process line ...
+end
+{% endhighlight %}
+
+{% highlight ruby %}
+i=0
+loop do
+  i += 1
+  next if i < 3
+  print i
+  break if i > 4
+end
+{% endhighlight %}
+
+As of Ruby 1.8, break and next can be given arguments. When used in conventional loops, it probably makes sense only to do this with break (as any value given to next is effectively lost). If a conventional loop doesn’t execute a break, its value is nil.
+
+### Retry
+
+`retry` restarts any kind of iterator loop.
+
+{% highlight ruby %}
+for i in 1..100
+  print "Now at #{i}. Restart? "
+  retry if gets =~ /^y/i
+end
+# this is not supported after ruby 1.9
+# retry can be used only in "rescue"clauses
+{% endhighlight %}
+
+{% highlight ruby %}
+def do_until(cond)
+  break if cond
+  yield
+  retry
+end
+i = 0
+do_until(i > 10) do
+  print i, " "
+  i += 1
+end
+# not supported either
+{% endhighlight %}
+
+## Variable Scope, Loops, and Blocks
+
+The while, until, and for loops are built into the language and do not introduce new scope; previously existing locals can be used in the loop, and any new locals created will be available afterward.
+
+**notice**
+
+The blocks used by iterators (such as loop and each) are a little different. Normally, the local variables created in these blocks are not accessible outside the block.
+
+However, if at the time the block executes a local variable already exists with the same name as that of a variable in the block, the existing local variable will be used in the block. Its value will therefore be available after the block finishes.
+
+{% highlight ruby %}
+[1,2,3].each do |x|
+  y = x + 1
+end
+[x, y]
+
+#x is not defined error
+
+x = nil
+y = nil
+
+[1,2,3].each do |x|
+  y = x + 1
+end
+[x, y]   -> [3,4]
+# in fact, things changes in ruby 1.9. it looks like x is still nil,but y is 4, it's quite strange, |x| may define a new variable
+{% endhighlight %}
+
+{% highlight ruby %}
+if false
+  a = 1  #even it is not excuted, things differ
+end
+3.times {|i| a = i}
+
+a -> 2
+{% endhighlight %}
+
+Keep your methods and blocks short. The fewer variables, the smaller the chance that they’ll clobber each other. It’s also easier to eyeball the code and check that you don’t have conflicting names.
+
+Use different naming schemes for local variables and block parameters.For example, you probably don’t want a local variable called “i,” but that might be perfectly acceptable as a block parameter.
 
