@@ -104,7 +104,7 @@ int main()
 	3 Exmpl()	//初始化es[0]
 	4 Exmpl()	//初始化es[1]
 	4~Exmpl()	//析构es[1]
-	3~Exmpl()	//析构es[2]
+	3~Exmpl()	//析构es[0]
 	1~Exmpl()	//析构ev[0]
 	2~Exmpl()	//析构ev[1]
 
