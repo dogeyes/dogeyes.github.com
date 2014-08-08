@@ -7,6 +7,8 @@ tags: [读书笔记, 技术科普]
 ---
 {% include JB/setup %}
 
+[toc]
+
 ## 1. 搜索引擎
 todo
 ## 2. pagerank
